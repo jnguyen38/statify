@@ -19,7 +19,6 @@
   background-color: white;
   width: 80vw;
   height: calc(100vh - calc(max(var(--std-space), 3vh) + 6vh + var(--std-space)));
-  padding-top: var(--std-space);
   display: flex;
   flex-flow: nowrap column;
   align-items: center;

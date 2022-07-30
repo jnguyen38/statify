@@ -65,13 +65,13 @@ function Login(props) {
 function Dashboard(props) {
     const accessToken = useAuth(props.code)
     const [topTracks, setTopTracks] = useState([]);
-    const test = ["hello", "my", "friend"]
 
     useEffect(() => {
         if (!accessToken) return
         spotifyApi.setAccessToken(accessToken)
         spotifyApi.getMyTopTracks()
             .then(data => {
+                console.log(data)
                 setTopTracks(
                     data.body.items.map(track => {
                         const smallestAlbumImage = track.album.images.reduce(
@@ -95,15 +95,19 @@ function Dashboard(props) {
         });
     }, [accessToken])
 
-    console.log(test);
     console.log(topTracks);
 
     return (
-        <section style={{overflowY: "auto"}}>
-            <h1>Dashboard</h1>
-            {topTracks.map(track => (
-                <p key={track.title}>{track.title}</p>
-            ))}
+        <section className="dashboard-container">
+            <h1>My Dashboard</h1>
+            <section className="top-songs">
+                {topTracks.map(track => (
+                    <div key={track.title} className="song">
+                        <img src={track.albumUrl} alt=""/>
+                        <h3>{track.title}</h3>
+                    </div>
+                ))}
+            </section>
         </section>
     )
 }
