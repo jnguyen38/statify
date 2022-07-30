@@ -1,0 +1,34 @@
+:root {
+    --primary-green: #1db954;
+    --primary-green-hover: #199c47;
+    --primary-green-active: #15853c;
+    --grey-background: #4d4d4d;
+    --grey-background-hover: #1f1f1f;
+    --std-space: 20px;
+    --scale-factor: 1.05;
+}
+
+
+@font-face {
+    font-family: "Kumbh Sans";
+    font-weight: 100 900;
+    src: url("../media/fonts/Kumbh_Sans/KumbhSans-VariableFont_wght.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Staatliches";
+    src: url("../media/fonts/Staatliches/Staatliches-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Outfit";
+    font-weight: 100 900;
+    src: url("../media/fonts/Outfit/Outfit-VariableFont_wght.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Montserrat";
+    font-weight: 100 900;
+    src: url("../media/fonts/Montserrat/Montserrat-VariableFont_wght.ttf") format("truetype");
+
+}

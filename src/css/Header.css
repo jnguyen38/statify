@@ -1,10 +1,65 @@
-header {
+.header {
     display: flex;
-    justify-content: flex-start;
-    background: #4d4d4d;
+    justify-content: flex-end;
+    background: var(--grey-background);
+    height: max(var(--std-space), 9vh);
+    padding-left: 1vw;
 }
 
-header h1 {
-    margin-left: max(3vw, 20px);
+.header a {
+    display: flex;
+    align-items: center;
+}
+
+.header nav {
+    display: flex;
+}
+
+.header h1 {
     color: white;
+    font-family: "Outfit", sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+}
+
+.nav-box {
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    width: 110px;
+    height: 100%;
+    font-weight: 100;
+    transition: height .2s, background-color .2s;
+}
+
+.nav-box:hover {
+    font-weight: 600;
+    background-color: var(--primary-green);
+    height: 120%;
+}
+
+.nav-box:active {
+    font-weight: 600;
+    background-color: var(--primary-green);
+    height: 120%;
+}
+
+.nav-link {
+    color: white;
+    font-family: "Outfit", sans-serif;
+    font-weight: inherit;
+    transition: font-weight .2s, margin .2s;
+}
+
+#logo {
+    margin-left: max(1.5vw, 10px);
+    margin-right: 10px;
+    width: max(3vmin, 45px);
+    height: max(3vmin, 45px);
+}
+
+#logo-link {
+    margin-right: auto;
 }

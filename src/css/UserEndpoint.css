@@ -1,0 +1,41 @@
+#login-button {
+    background: var(--primary-green);
+    color: white;
+    width: 140px;
+    height: 60px;
+    border-radius: 10px;
+    border: none;
+    font-family: "Kumbh Sans", sans-serif;
+    font-weight: 700;
+    font-size: max(1em, 26px);
+    margin: 100px 0;
+    transition: background-color .5s, width .5s, height .5s, font-size .5s, margin .5s;
+}
+
+#login-button:hover {
+    background: var(--primary-green-hover);
+    width: 147px;
+    height: 64px;
+    margin: 98px 0;
+    font-size: max(calc(var(--scale-factor)*1em), calc(26px * var(--scale-factor)));
+}
+
+#login-button:active {
+    background: var(--primary-green-active);
+}
+
+.login {
+    font-family: "Outfit", sans-serif;
+    color: black;
+}
+
+.login h2 {
+    font-size: max(1.5em, 32px);
+    font-weight: 700;
+    margin: 10px 0;
+}
+
+.login p {
+    font-weight: 200;
+    margin: 10px;
+}
