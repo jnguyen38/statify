@@ -99,6 +99,15 @@ function Dashboard(props) {
 
     return (
         <section className="dashboard-container">
+            <h1>Your Top Songs</h1>
+            <section className="top-songs-options">
+                <p>Last Month</p>
+                <p>Last 6 Months</p>
+                <p>All time</p>
+                {/*<input type="radio">Last Month</input>*/}
+                {/*<input type="radio">Last 6 Months</input>*/}
+                {/*<input type="radio">All Time</input>*/}
+            </section>
             <section className="top-songs">
                 {topTracks.map(track => (
                     <div key={track.title} className="song">
