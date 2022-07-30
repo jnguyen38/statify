@@ -42,7 +42,7 @@
 
 .dashboard-container {
     z-index: 1;
-    overflow: auto;
+    height: fit-content;
     width: 100%;
 }
 
@@ -58,24 +58,39 @@
 }
 
 .song {
+    --img-dimension--song: 64px;
+    --transition-time--song: .2s;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     text-align: left;
     width: 30%;
-    margin-right: 3%;
-    margin-bottom: 5%;
+    height: 100px;
+    margin-right: var(--std-space);
+    margin-bottom: var(--std-space);
+    font-weight: 200;
+    cursor: pointer;
+    transition: background-color var(--transition-time--song), color var(--transition-time--song);
+}
+
+.song:hover {
+    --img-dimension--song: 72px;
+    font-weight: 700;
+    color: white;
+    background-color: var(--grey-background);
 }
 
 .song img {
-    width: 64px;
-    height: 64px;
+    width: var(--img-dimension--song);
+    height: var(--img-dimension--song);
     margin: 10px;
+    transition: width var(--transition-time--song), height var(--transition-time--song);
 }
 
 .song h3 {
     margin: 0;
     font-family: "Outfit", sans-serif;
-    font-weight: 200;
+    font-weight: inherit;
     font-size: 18px;
+    transition: font-weight var(--transition-time--song);
 }

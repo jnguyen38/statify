@@ -71,8 +71,8 @@ function Dashboard(props) {
         spotifyApi.setAccessToken(accessToken)
         spotifyApi.getMyTopTracks({time_range: "short_term", limit: 50})
             .then(data => {
-                console.log(data)
-                let tracks = [];
+                let tracks = []
+                // eslint-disable-next-line array-callback-return
                 data.body.items.map(track => {
                     const smallestAlbumImage = track.album.images.reduce(
                         (smallest, image) => {
@@ -99,7 +99,6 @@ function Dashboard(props) {
 
     return (
         <section className="dashboard-container">
-            <h1>My Dashboard</h1>
             <section className="top-songs">
                 {topTracks.map(track => (
                     <div key={track.title} className="song">

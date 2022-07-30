@@ -2,6 +2,7 @@
   text-align: center;
   display: flex;
   justify-content: center;
+  overflow: auto;
 }
 
 .Home-logo {
@@ -25,7 +26,6 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: black;
-  overflow: hidden;
 }
 
 .Home-link {
