@@ -92,10 +92,10 @@
 }
 
 .top-songs-display {
-    --grid-width--top-songs: 220px;
+    --grid-layout--top-songs: repeat(auto-fit, minmax(220px, 1fr));
     display: grid;
     justify-content: space-between;
-    grid-template-columns: repeat(auto-fill, var(--grid-width--top-songs));
+    grid-template-columns: var(--grid-layout--top-songs);
     background-color: var(--light-grey-background);
 }
 
@@ -112,11 +112,15 @@
     animation: 1s ease-out 0s 1 songLoad;
     --img-dimension--song: 64px;
     --transition-time--song: .2s;
+    --width--song-before: 10px;
+    --content--song-before: "";
+    --opacity-song-before: 0%;
+    --img-margin--song: 20px;
+    position: relative;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     text-align: left;
-    width: 220px;
     height: 100px;
     font-weight: 200;
     cursor: pointer;
@@ -125,6 +129,10 @@
 
 .song:hover {
     --img-dimension--song: 72px;
+    --width--song-before: 60px;
+    --content--song-before: attr(index);
+    --opacity-song-before: 60%;
+    --img-margin--song: 40px;
     font-weight: 700;
     color: white;
     background-color: var(--grey-background);
@@ -133,8 +141,8 @@
 .song img {
     width: var(--img-dimension--song);
     height: var(--img-dimension--song);
-    margin: 10px;
-    transition: width var(--transition-time--song), height var(--transition-time--song);
+    margin: 10px 10px 10px var(--img-margin--song);
+    transition: width var(--transition-time--song), height var(--transition-time--song), margin var(--transition-time--song);
 }
 
 .song h3 {
@@ -144,3 +152,18 @@
     font-size: 18px;
     transition: font-weight var(--transition-time--song);
 }
+
+.song::before {
+    content: var(--content--song-before);
+    opacity: var(--opacity-song-before);
+    position: absolute;
+    width: var(--width--song-before);
+    height: 100px;
+    background-color: var(--light-grey-background);
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: content var(--transition-time--song), opacity var(--transition-time--song), width var(--transition-time--song);
+}
+

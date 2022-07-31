@@ -115,10 +115,9 @@ function Dashboard(props) {
                 </div>
             </section>
             <section className="top-songs-display">
-                {topTracks.map(track => {
-
+                {topTracks.map((track, index) => {
                     return (
-                        <div key={track.title} className="song">
+                        <div index={index + 1} key={track.title} className="song">
                             <img src={track.albumUrl} alt=""/>
                             <h3>{track.title}</h3>
                         </div>
