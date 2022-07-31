@@ -64,12 +64,16 @@ function Login(props) {
 
 function Dashboard(props) {
     const accessToken = useAuth(props.code)
-    const [topTracks, setTopTracks] = useState([]);
+    const [topTracks, setTopTracks] = useState([])
+    const [timeRange, setTimeRange] = useState("medium_term")
 
     useEffect(() => {
         if (!accessToken) return
         spotifyApi.setAccessToken(accessToken)
-        spotifyApi.getMyTopTracks({time_range: "short_term", limit: 50})
+    }, [accessToken])
+      
+    useEffect(() => {
+        spotifyApi.getMyTopTracks({time_range: timeRange, limit: 50})
             .then(data => {
                 let tracks = []
                 // eslint-disable-next-line array-callback-return
@@ -89,32 +93,37 @@ function Dashboard(props) {
                         albumUrl: smallestAlbumImage.url,
                     })
                 })
-                setTopTracks(tracks);
+                setTopTracks(tracks)
             }).catch(err => {
                 console.log(err);
         });
-    }, [accessToken])
+    }, [timeRange, accessToken])
 
-    console.log(topTracks);
 
     return (
         <section className="dashboard-container">
             <h1>Your Top Songs</h1>
             <section className="top-songs-options">
-                <p>Last Month</p>
-                <p>Last 6 Months</p>
-                <p>All time</p>
-                {/*<input type="radio">Last Month</input>*/}
-                {/*<input type="radio">Last 6 Months</input>*/}
-                {/*<input type="radio">All Time</input>*/}
+                <div className="top-songs-range" onClick={() => {setTimeRange("short_term")}}>
+                    <h2> Last Month </h2>
+                </div>
+                <div className="top-songs-range" onClick={() => {setTimeRange("medium_term")}}>
+                    <h2> Six Months </h2>
+                </div>
+                <div className="top-songs-range" onClick={() => {setTimeRange("long_term")}}>
+                    <h2> All Time </h2>
+                </div>
             </section>
-            <section className="top-songs">
-                {topTracks.map(track => (
-                    <div key={track.title} className="song">
-                        <img src={track.albumUrl} alt=""/>
-                        <h3>{track.title}</h3>
-                    </div>
-                ))}
+            <section className="top-songs-display">
+                {topTracks.map(track => {
+
+                    return (
+                        <div key={track.title} className="song">
+                            <img src={track.albumUrl} alt=""/>
+                            <h3>{track.title}</h3>
+                        </div>
+                    )
+                })}
             </section>
         </section>
     )

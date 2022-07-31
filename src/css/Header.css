@@ -40,12 +40,6 @@
     height: 120%;
 }
 
-.nav-box:active {
-    font-weight: 600;
-    background-color: var(--primary-green);
-    height: 120%;
-}
-
 .nav-link {
     color: white;
     font-family: "Outfit", sans-serif;
