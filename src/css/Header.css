@@ -3,7 +3,6 @@
     justify-content: flex-end;
     background: var(--grey-background);
     height: max(var(--std-space), 9vh);
-    padding-left: 1vw;
 }
 
 .header a {
