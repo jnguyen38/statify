@@ -3,7 +3,6 @@
     justify-content: flex-end;
     background: var(--grey-background);
     height: max(var(--std-space), 9vh);
-    padding-left: 1vw;
 }
 
 .header a {
@@ -31,6 +30,7 @@
     width: 110px;
     height: 100%;
     font-weight: 100;
+    cursor: pointer;
     transition: height .2s, background-color .2s;
 }
 
@@ -38,6 +38,10 @@
     font-weight: 600;
     background-color: var(--primary-green);
     height: 120%;
+}
+
+.nav-box:active {
+    background-color: var(--primary-green-hover);
 }
 
 .nav-link {

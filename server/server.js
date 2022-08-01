@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.post('/refresh', (req, res) => {
     const refreshToken = req.body.refreshToken;
     const spotifyApi = new spotifyWebApi({
-        redirectUri: 'http://localhost:3000',
+        redirectUri: 'http://localhost:3000/dashboard',
         clientId: '5c42b63580e74a5d98548a11638db40f',
         clientSecret: 'f7e812c4d6e14139b4b13c4f270b56d4',
         refreshToken
@@ -35,7 +35,7 @@ app.post('/refresh', (req, res) => {
 app.post('/login', (req, res) => {
     const code = req.body.code;
     const spotifyApi = new spotifyWebApi({
-        redirectUri: 'http://localhost:3000',
+        redirectUri: 'http://localhost:3000/dashboard',
         clientId: '5c42b63580e74a5d98548a11638db40f',
         clientSecret: 'f7e812c4d6e14139b4b13c4f270b56d4'
     });

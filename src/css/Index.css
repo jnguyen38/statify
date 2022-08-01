@@ -9,10 +9,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+section {
+  width: 100%;
 }
 
 code {
