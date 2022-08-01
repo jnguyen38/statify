@@ -42,7 +42,7 @@ a:link { text-decoration: none; }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: var(--grey-background);
+  background: inherit;
 }
 
 /* Handle */

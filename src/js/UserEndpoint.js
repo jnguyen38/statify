@@ -64,25 +64,66 @@ function Login(props) {
 
 function Dashboard(props) {
     const accessToken = useAuth(props.code)
-    const [topTracks, setTopTracks] = useState();
+    const [topTracks, setTopTracks] = useState([])
+    const [timeRange, setTimeRange] = useState("medium_term")
 
     useEffect(() => {
         if (!accessToken) return
         spotifyApi.setAccessToken(accessToken)
-        spotifyApi.getMyTopTracks()
-            .then(res => {
-                setTopTracks(res.body.items);
-                console.log("Top Tracks from API call: ")
-                console.log(topTracks);
+    }, [accessToken])
+      
+    useEffect(() => {
+        spotifyApi.getMyTopTracks({time_range: timeRange, limit: 50})
+            .then(data => {
+                let tracks = []
+                // eslint-disable-next-line array-callback-return
+                data.body.items.map(track => {
+                    const smallestAlbumImage = track.album.images.reduce(
+                        (smallest, image) => {
+                            if (image.height < smallest.height) return image
+                            return smallest
+                        },
+                        track.album.images[0]
+                    )
+
+                    tracks.push({
+                        artist: track.artists[0].name,
+                        title: track.name,
+                        uri: track.uri,
+                        albumUrl: smallestAlbumImage.url,
+                    })
+                })
+                setTopTracks(tracks)
             }).catch(err => {
                 console.log(err);
         });
-    }, [accessToken])
+    }, [timeRange, accessToken])
+
 
     return (
-        <section>
-            <h1>Dashboard</h1>
-
+        <section className="dashboard-container">
+            <h1>Your Top Songs</h1>
+            <section className="top-songs-options">
+                <div className="top-songs-range" onClick={() => {setTimeRange("short_term")}}>
+                    <h2> Last Month </h2>
+                </div>
+                <div className="top-songs-range" onClick={() => {setTimeRange("medium_term")}}>
+                    <h2> Six Months </h2>
+                </div>
+                <div className="top-songs-range" onClick={() => {setTimeRange("long_term")}}>
+                    <h2> All Time </h2>
+                </div>
+            </section>
+            <section className="top-songs-display">
+                {topTracks.map((track, index) => {
+                    return (
+                        <div index={index + 1} key={track.title} className="song">
+                            <img src={track.albumUrl} alt=""/>
+                            <h3>{track.title}</h3>
+                        </div>
+                    )
+                })}
+            </section>
         </section>
     )
 }
