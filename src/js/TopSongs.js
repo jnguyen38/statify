@@ -4,16 +4,18 @@ import {useCookies} from "react-cookie";
 
 import "../css/TopSongs.css"
 
-export default function TopSongs() {
+export default function TopSongs(props) {
     const [topTracks, setTopTracks] = useState([])
     const [timeRange, setTimeRange] = useState("medium_term")
     const [cookies] = useCookies([]);
 
     useEffect(() => {
-        console.log(cookies.accessToken)
-        console.log(cookies.spotifyApi)
-        console.log(cookies.test)
-        cookies.spotifyApi.getMyTopTracks({time_range: timeRange, limit: 50})
+        if (!cookies.accessToken) return
+        props.spotifyApi.setAccessToken(cookies.accessToken)
+    }, [cookies.accessToken, props.spotifyApi])
+
+    useEffect(() => {
+        props.spotifyApi.getMyTopTracks({time_range: timeRange, limit: 50})
             .then(data => {
                 let tracks = []
                 // eslint-disable-next-line array-callback-return
@@ -37,7 +39,7 @@ export default function TopSongs() {
             }).catch(err => {
             console.log(err);
         });
-    }, [timeRange, cookies.accessToken, cookies.spotifyApi])
+    }, [timeRange, props.spotifyApi])
 
     return (
         <section className="top-songs-container">

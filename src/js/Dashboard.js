@@ -1,25 +1,17 @@
 import {useCookies} from "react-cookie";
 import useAuth from "./useAuth";
 import React, {useEffect} from "react";
-import TopSongs from "./TopSongs";
-import SpotifyWebApi from "spotify-web-api-node";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
-const redirect_uri = ['http://localhost:3000/dashboard'],
-    client_id = ['5c42b63580e74a5d98548a11638db40f'],
-    client_secret = ['f7e812c4d6e14139b4b13c4f270b56d4']
-
-const spotifyApi = new SpotifyWebApi({
-    clientId: client_id,
-    clientSecret: client_secret,
-    redirectUri: redirect_uri
-})
-
-export default function Dashboard() {
+export default function Dashboard(props) {
     const [cookies, setCookie] = useCookies(["accessToken", "spotifyApi"]);
     const code = new URLSearchParams(window.location.search).get('code')
     const token = useAuth(code)
+    const navigate = useNavigate()
 
+    function redirectUser() {
+        navigate("/")
+    }
 
     useEffect(() => {
         if (!token) return
@@ -28,16 +20,14 @@ export default function Dashboard() {
 
     useEffect(() => {
         if (!cookies.accessToken) return
-        spotifyApi.setAccessToken(cookies.accessToken)
-    }, [cookies.accessToken])
-
-    // if (spotifyApi) setCookie('spotifyApi', spotifyApi, {path: '/'})
+        props.spotifyApi.setAccessToken(cookies.accessToken)
+    }, [cookies.accessToken, props.spotifyApi])
 
     return (
         <section>
             <h1>Dashboard</h1>
             <div className="dashboard-container">
-                <Link to={'/top-songs'}>
+                <Link to={'./top-songs'}>
                     <div className="dashboard-banner">
                         <h2>Top Songs</h2>
                     </div>

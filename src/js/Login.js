@@ -44,14 +44,14 @@ function buildURL (header) {
 export default function Login() {
     const AUTH_URL = buildURL(header)
     const navigate = useNavigate()
-    const [cookies] = useCookies()
+    const [cookies] = useCookies(['accessToken'])
 
     function redirectUser() {
         navigate('/dashboard')
     }
 
     function isLoggedIn() {
-        return (cookies.accessToken !== "undefined")
+        return (cookies.accessToken)
     }
 
     useEffect(() => {

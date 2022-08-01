@@ -1,5 +1,6 @@
 #login-button {
     background: var(--primary-green);
+    cursor: pointer;
     color: white;
     width: 140px;
     height: 60px;
