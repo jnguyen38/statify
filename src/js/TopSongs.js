@@ -1,70 +1,120 @@
 import React from "react";
 import {useEffect, useState} from "react";
-import {useCookies} from "react-cookie";
+import {SongModal} from "./Modal"
 
-import "../css/TopSongs.css"
+function Song(props) {
+    const [show, setShow] = useState(false)
+
+    return (
+        <section>
+            <div index={props.index + 1}
+                 className="song"
+                 onClick={() => setShow(!show)}>
+                <img src={props.track.albumUrl} alt=""/>
+                <h3>{props.track.title}</h3>
+            </div>
+            <SongModal track={props.track}
+                       index={props.index + 1}
+                       show={show}
+                       close={() => setShow(false)}/>
+        </section>
+    )
+}
+
+function TopSongsDisplay(props) {
+    return (
+        <section className="top-songs-display">
+            {props.topTracks.map((track, index) => (
+                <Song track={track} index={index} key={track.title}/>
+            ))}
+        </section>
+    )
+}
+
+function TopSongsOptions(props) {
+    function setTimeRange(term) {
+        props.setTimeRange(term)
+        document.getElementsByClassName("top-songs-range-selected")[0].className = "top-songs-range"
+        document.getElementById(term).className = "top-songs-range-selected"
+    }
+
+    return (
+        <section className="top-songs-options">
+            <div className="top-songs-range-selected"
+                 id="short_term"
+                 onClick={() => {setTimeRange("short_term")}}>
+                <h2> Last Month </h2>
+            </div>
+            <div className="top-songs-range"
+                 id="medium_term"
+                 onClick={() => {setTimeRange("medium_term")}}>
+                <h2> Six Months </h2>
+            </div>
+            <div className="top-songs-range"
+                 id="long_term"
+                 onClick={() => {setTimeRange("long_term")}}>
+                <h2> All Time </h2>
+            </div>
+        </section>
+    )
+}
 
 export default function TopSongs(props) {
     const [topTracks, setTopTracks] = useState([])
-    const [timeRange, setTimeRange] = useState("medium_term")
-    const [cookies] = useCookies([]);
+    const [timeRange, setTimeRange] = useState("short_term")
+    const [topSongsLocal, setLocal] = useState({"short_term" : [], "medium_term" : [], "long_term" : []})
+
 
     useEffect(() => {
-        if (!cookies.accessToken) return
-        props.spotifyApi.setAccessToken(cookies.accessToken)
-    }, [cookies.accessToken, props.spotifyApi])
+        const ranges = ["short_term", "medium_term", "long_term"]
+        for (let range = 0; range < ranges.length; range++) {
+            props.spotifyApi.getMyTopTracks({time_range: ranges[range], limit: 50})
+                .then(data => {
+                    console.log(data)
+                    let tempLocal = topSongsLocal
+                    let tracks = []
+                    // eslint-disable-next-line array-callback-return
+                    data.body.items.map(track => {
+                        const largestAlbumImage = track.album.images.reduce(
+                            (largest, image) => {
+                                if (image.height > largest.height) return image
+                                return largest
+                            },
+                            track.album.images[0]
+                        )
 
-    useEffect(() => {
-        props.spotifyApi.getMyTopTracks({time_range: timeRange, limit: 50})
-            .then(data => {
-                let tracks = []
-                // eslint-disable-next-line array-callback-return
-                data.body.items.map(track => {
-                    const smallestAlbumImage = track.album.images.reduce(
-                        (smallest, image) => {
-                            if (image.height < smallest.height) return image
-                            return smallest
-                        },
-                        track.album.images[0]
-                    )
-
-                    tracks.push({
-                        artist: track.artists[0].name,
-                        title: track.name,
-                        uri: track.uri,
-                        albumUrl: smallestAlbumImage.url,
+                        tracks.push({
+                            artist: track.artists[0].name,
+                            title: track.name,
+                            uri: track.uri,
+                            albumUrl: largestAlbumImage.url,
+                            popularity: track.popularity,
+                            duration: track.duration_ms,
+                            release: track.album.release_date,
+                            albumName: track.album.name,
+                            id: track.id,
+                        })
                     })
-                })
-                setTopTracks(tracks)
-            }).catch(err => {
-            console.log(err);
-        });
-    }, [timeRange, props.spotifyApi])
+
+                    tempLocal[ranges[range]] = tracks
+                    setLocal(tempLocal)
+                    if (range === 0) setTopTracks(tracks)
+                    console.log(tracks)
+                }).catch(err => {
+                console.log(err);
+            });
+        }
+    }, [props.spotifyApi, topSongsLocal])
+
+    useEffect(() => {
+        setTopTracks(topSongsLocal[timeRange])
+    }, [timeRange, props.spotifyApi, topSongsLocal])
 
     return (
         <section className="top-songs-container">
-            <h1>Your Top Songs</h1>
-            <section className="top-songs-options">
-                <div className="top-songs-range" onClick={() => {setTimeRange("short_term")}}>
-                    <h2> Last Month </h2>
-                </div>
-                <div className="top-songs-range" onClick={() => {setTimeRange("medium_term")}}>
-                    <h2> Six Months </h2>
-                </div>
-                <div className="top-songs-range" onClick={() => {setTimeRange("long_term")}}>
-                    <h2> All Time </h2>
-                </div>
-            </section>
-            <section className="top-songs-display">
-                {topTracks.map((track, index) => {
-                    return (
-                        <div index={index + 1} key={track.title} className="song">
-                            <img src={track.albumUrl} alt=""/>
-                            <h3>{track.title}</h3>
-                        </div>
-                    )
-                })}
-            </section>
+            <h1>Your Top Songs from...</h1>
+            <TopSongsOptions setTimeRange={setTimeRange}/>
+            <TopSongsDisplay topTracks={topTracks}/>
         </section>
     )
 }

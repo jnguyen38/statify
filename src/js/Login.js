@@ -1,6 +1,5 @@
 import React, {useEffect} from "react";
 import {useNavigate} from 'react-router-dom';
-import "../css/Login.css"
 import {useCookies} from "react-cookie";
 
 const scope = [
