@@ -30,7 +30,7 @@ export default function useAuth(code) {
             }).then(res => {
                 setAccessToken(res.data.accessToken)
                 setExpiresIn(res.data.expiresIn)
-                window.history.pushState({}, null, '/')
+                window.history.pushState({}, null, '/dashboard')
             })
         }, (expiresIn - 60) * 1000)
 

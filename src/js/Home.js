@@ -6,6 +6,8 @@ import Login from "./Login";
 import Dashboard from "./Dashboard";
 import TopSongs from "./TopSongs";
 import SpotifyWebApi from "spotify-web-api-node";
+import {useEffect} from "react";
+import {useCookies} from "react-cookie";
 
 const redirect_uri = ['http://localhost:3000/dashboard'],
     client_id = ['5c42b63580e74a5d98548a11638db40f'],
@@ -18,6 +20,13 @@ const spotifyApi = new SpotifyWebApi({
 })
 
 export default function Home() {
+    const [cookies] = useCookies()
+    
+    useEffect(() => {
+        if (!cookies.accessToken) return
+        spotifyApi.setAccessToken(cookies.accessToken)
+    }, [cookies.accessToken])
+    
     return (
         <div className="Home">
             <main className="Home-header">
