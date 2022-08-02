@@ -8,6 +8,11 @@
     --light-grey-border: #b6b6b6;
     --std-space: 20px;
     --scale-factor: 1.05;
+    --popularity-width: 0;
+    --acoustic-width: 0;
+    --dance-width: 0;
+    --energy-width: 0;
+    --loudness-width: 0;
 }
 
 html {

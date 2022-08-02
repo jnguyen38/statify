@@ -14,6 +14,11 @@
     }
 }
 
+.br {
+    display: block;
+    margin-bottom: .8em;
+}
+
 .song-modal {
     position: fixed;
     left: 0;
@@ -28,7 +33,7 @@
     animation: modalOpacity .4s;
 }
 
-.song-modal h3, .song-modal h4, .song-modal p {
+.song-modal h3, .song-modal h4, .song-modal p, .song-modal h5 {
     margin: 0;
     font-family: "Outfit", sans-serif;
     font-weight: 700;
@@ -46,6 +51,14 @@
     color: var(--primary-green);
     margin-right: 5px;
 }
+
+.song-modal h5 {
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--grey-background);
+    margin-left: auto;
+    margin-right: 5px;
+ }
 
 .song-modal p {
     font-weight: 300;
@@ -76,14 +89,34 @@
 
 .song-modal-info {
     margin-left: var(--std-space);
+    position: relative;
     display: flex;
     flex-flow: column;
     align-items: flex-start;
     width: 100%;
 }
 
+.song-modal-content:before {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 80px;
+    height: 80px;
+    content: attr(index);
+    background-color: var(--light-grey-background);
+    opacity: .8;
+    color: black;
+    font-family: "Outfit", sans-serif;
+    font-weight: 700;
+    font-size: 40px;
+}
+
 .info-line {
     display: flex;
+    align-items: center;
+    width: 100%;
 }
 
 .modal-close-btn {
@@ -106,3 +139,31 @@
     color: #888;
     width: 100%;
 }
+
+.stat-bar {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: var(--light-grey-background);
+    font-family: "Outfit", sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    width: 30%;
+    height: 20%;
+}
+
+.stat-bar:before {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background-color: var(--primary-green);
+    height: 100%;
+    content: "";
+}
+
+#popularity-bar:before {width: var(--popularity-width);}
+#acoustic-bar:before {width: var(--acoustic-width);}
+#dance-bar:before {width: var(--dance-width);}
+#energy-bar:before {width: var(--energy-width);}
+#loudness-bar:before {width: var(--loudness-width)}

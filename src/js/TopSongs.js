@@ -70,11 +70,7 @@ export default function TopSongs(props) {
         for (let range = 0; range < ranges.length; range++) {
             props.spotifyApi.getMyTopTracks({time_range: ranges[range], limit: 50})
                 .then(data => {
-                    console.log(data)
-                    let tempLocal = topSongsLocal
-                    let tracks = []
-                    // eslint-disable-next-line array-callback-return
-                    data.body.items.map(track => {
+                     return data.body.items.map(track => {
                         const largestAlbumImage = track.album.images.reduce(
                             (largest, image) => {
                                 if (image.height > largest.height) return image
@@ -82,8 +78,7 @@ export default function TopSongs(props) {
                             },
                             track.album.images[0]
                         )
-
-                        tracks.push({
+                        return ({
                             artist: track.artists[0].name,
                             title: track.name,
                             uri: track.uri,
@@ -95,12 +90,22 @@ export default function TopSongs(props) {
                             id: track.id,
                         })
                     })
-
-                    tempLocal[ranges[range]] = tracks
+                }).then(tracks => {
+                // eslint-disable-next-line array-callback-return
+                    return props.spotifyApi.getAudioFeaturesForTracks(tracks.map(track => {return track.id}))
+                        .then(data => {
+                            let features = data.body.audio_features
+                            let res = tracks.map((song, index) => Object.assign({}, song, features[index]));
+                            return res
+                        }).catch(err => {
+                            console.log(err)
+                    })
+                }).then(data => {
+                    let tempLocal = topSongsLocal
+                    tempLocal[ranges[range]] = data
                     setLocal(tempLocal)
-                    if (range === 0) setTopTracks(tracks)
-                    console.log(tracks)
-                }).catch(err => {
+                    if (range === 0) setTopTracks(data)
+            }).catch(err => {
                 console.log(err);
             });
         }
