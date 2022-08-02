@@ -1,4 +1,6 @@
 import React, {useEffect} from "react";
+import arrowRight from "../media/arrow_forward_ios_FILL0_wght400_GRAD0_opsz48.png"
+import arrowLeft from "../media/arrow_back_ios_new_FILL0_wght400_GRAD0_opsz48.png"
 
 function convertDate(numericDate) {
     const dateArray = numericDate.split("-")
@@ -10,7 +12,7 @@ function convertDate(numericDate) {
 
 function convertDuration(duration) {
     let minutes = Math.floor(duration / 60000)
-    let seconds = String(Math.round((duration % 60000) / 1000)).padStart(2, '0')
+    let seconds = String(Math.floor((duration % 60000) / 1000)).padStart(2, '0')
     return <p>{minutes}:{seconds}</p>
 }
 
@@ -22,6 +24,10 @@ function maggie(title, artist) {
     else if (title === "Carlo's Song" && artist === "Noah Kahan")
         return (
             <p style={{marginTop: "auto", fontSize: "10px"}}>Other Extremely Important Note: This is Maggie's favorite Noah Kahan song</p>
+        )
+    else if (title === "Classy Girls (B Version)" && artist === "The Lumineers")
+        return (
+            <p style={{marginTop: "auto", fontSize: "10px"}}>Maggie HATES this song. Loves the regular version (it's the background noise)</p>
         )
 }
 
@@ -39,11 +45,21 @@ export function SongModal(props) {
         root.style.setProperty('--loudness-width', (100 - ((-1 * loud) * (6))).toString() + '%')
     }, [acous, dance, energy, loud, pop, root.style])
 
+    function handleNav(dir) {
+        if (dir === "left")
+            props.left()
+        else if (dir === "right")
+            props.right()
+    }
+
     return (
-        <div id={props.track.title} className="song-modal" onClick={props.close}>
-            <div className="song-modal-main" onClick={e => e.stopPropagation()}>
+        <div id={props.track.title} className="song-modal d-flex-cc" onClick={props.close}>
+            <div className="modal-left d-flex-cc" onClick={e => {e.stopPropagation(); handleNav("left");}}><img src={arrowLeft} alt=""/></div>
+            <div className={(props.clicked) ? "song-modal-main main-clicked" : "song-modal-main"} onAnimationEnd={props.functionAnimationEnd} onClick={e => e.stopPropagation()}>
                 <div className="song-modal-content" index={props.index}>
-                    <img src={props.track.albumUrl} alt="" className="song-modal-img"/>
+                    <div className="song-modal-img">
+                        <a href={props.track.uri}><img src={props.track.albumUrl} alt="" /></a>
+                    </div>
                     <div className="song-modal-info" >
                         <h3>{props.track.title}</h3>
                         <div className="info-line"><p>{props.track.artist}</p></div>
@@ -63,6 +79,7 @@ export function SongModal(props) {
                 </div>
                 <button onClick={props.close} className="modal-close-btn">Close</button>
             </div>
+            <div className="modal-right d-flex-cc" onClick={e => {e.stopPropagation(); handleNav("right")}}><img src={arrowRight} alt=""/></div>
         </div>
     )
 }

@@ -23,6 +23,7 @@
     justify-content: flex-start;
     align-items: flex-end;
     margin-bottom: 10px;
+
 }
 
 #short_term, #medium_term, #long_term {
@@ -30,7 +31,7 @@
     display: flex;
     align-items: center;
     padding: 0 var(--std-space);
-    border-bottom: 2px solid var(--light-grey-border);
+    box-shadow: 5px 5px 5px var(--light-grey-border);
     transition: height .2s, background-color .2s, margin-top .2s, width .2s, color .2s;
 }
 
@@ -64,6 +65,15 @@
 .top-songs-range h2 {
     font-weight: inherit;
     transition: font-weight .2s;
+}
+
+.top-songs-display-toggle {
+    margin-left: auto;
+    margin-bottom: 10px;
+}
+
+.top-songs-display-toggle img {
+    width: 30px;
 }
 
 .top-songs-display {

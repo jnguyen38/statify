@@ -1,31 +1,80 @@
-import React from "react";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {SongModal} from "./Modal"
+import ToggleSwitch from "./ToggleSwitch";
+
+import gridView from "../media/grid_view_FILL0_wght300_GRAD0_opsz48.png";
+import listView from "../media/view_list_FILL0_wght300_GRAD0_opsz48.png";
 
 function Song(props) {
-    const [show, setShow] = useState(false)
+    const [clicked, setClicked] = useState(false)
+
+    function handleShow() {
+        props.showModal(props.index)
+        setClicked(true)
+    }
+
+    function handleAnimationEnd() {
+        setClicked(false)
+    }
 
     return (
         <section>
             <div index={props.index + 1}
                  className="song"
-                 onClick={() => setShow(!show)}>
+                 onClick={handleShow}>
                 <img src={props.track.albumUrl} alt=""/>
                 <h3>{props.track.title}</h3>
             </div>
             <SongModal track={props.track}
                        index={props.index + 1}
-                       show={show}
-                       close={() => setShow(false)}/>
+                       right={props.right}
+                       left={props.left}
+                       show={props.show}
+                       close={props.close}
+                       clicked={clicked}
+                       functionAnimationEnd={handleAnimationEnd}
+                       onAnimationEnd={handleAnimationEnd}
+                       className={(clicked) ? "song-clicked" : ""}/>
         </section>
     )
 }
 
 function TopSongsDisplay(props) {
+    const init = new Array(50).fill(false)
+    const [show, setShow] = useState(init)
+
+    function shiftLeft() {
+        let tempShow = show
+        tempShow = tempShow.concat(tempShow.splice(0,1))
+        setShow(tempShow)
+    }
+
+    function shiftRight() {
+        let tempShow = show
+        tempShow = tempShow.concat(tempShow.splice(0,49))
+        setShow(tempShow)
+    }
+
+    function showModal(index) {
+        let tempShow = init
+        tempShow[index] = true
+        setShow(tempShow)
+    }
+
+    function closeModal() {
+        setShow(init)
+    }
+
     return (
         <section className="top-songs-display">
             {props.topTracks.map((track, index) => (
-                <Song track={track} index={index} key={track.title}/>
+                <Song track={track}
+                      index={index}
+                      right={shiftRight}
+                      left={shiftLeft}
+                      showModal={showModal}
+                      close={closeModal}
+                      show={show[index]} key={track.title}/>
             ))}
         </section>
     )
@@ -34,26 +83,29 @@ function TopSongsDisplay(props) {
 function TopSongsOptions(props) {
     function setTimeRange(term) {
         props.setTimeRange(term)
-        document.getElementsByClassName("top-songs-range-selected")[0].className = "top-songs-range"
-        document.getElementById(term).className = "top-songs-range-selected"
     }
 
     return (
         <section className="top-songs-options">
-            <div className="top-songs-range-selected"
+            <div className={(props.timeRange === "short_term") ? "top-songs-range-selected" : "top-songs-range"}
                  id="short_term"
                  onClick={() => {setTimeRange("short_term")}}>
                 <h2> Last Month </h2>
             </div>
-            <div className="top-songs-range"
+            <div className={(props.timeRange === "medium_term") ? "top-songs-range-selected" : "top-songs-range"}
                  id="medium_term"
                  onClick={() => {setTimeRange("medium_term")}}>
                 <h2> Six Months </h2>
             </div>
-            <div className="top-songs-range"
+            <div className={(props.timeRange === "long_term") ? "top-songs-range-selected" : "top-songs-range"}
                  id="long_term"
                  onClick={() => {setTimeRange("long_term")}}>
                 <h2> All Time </h2>
+            </div>
+            <div className="top-songs-display-toggle d-flex-cc">
+                <img src={gridView} alt=""/>
+                <ToggleSwitch/>
+                <img src={listView} alt=""/>
             </div>
         </section>
     )
@@ -95,8 +147,7 @@ export default function TopSongs(props) {
                     return props.spotifyApi.getAudioFeaturesForTracks(tracks.map(track => {return track.id}))
                         .then(data => {
                             let features = data.body.audio_features
-                            let res = tracks.map((song, index) => Object.assign({}, song, features[index]));
-                            return res
+                            return tracks.map((song, index) => Object.assign({}, song, features[index]))
                         }).catch(err => {
                             console.log(err)
                     })
@@ -118,7 +169,7 @@ export default function TopSongs(props) {
     return (
         <section className="top-songs-container">
             <h1>Your Top Songs from...</h1>
-            <TopSongsOptions setTimeRange={setTimeRange}/>
+            <TopSongsOptions setTimeRange={setTimeRange} timeRange={timeRange}/>
             <TopSongsDisplay topTracks={topTracks}/>
         </section>
     )

@@ -4,19 +4,25 @@
 }
 
 @keyframes modalBounce {
-    0% {
-        transform: translateY(500px);
-        opacity: 0;
-    }
-    100% {
-        transform: translateY(0);
-        opacity: 1;
-    }
+    0% {transform: translateY(500px);
+        opacity: 0;}
+    100% {transform: translateY(0);
+        opacity: 1;}
 }
 
 .br {
     display: block;
     margin-bottom: .8em;
+}
+
+.d-flex-cc {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.song-clicked {
+    animation: modalOpacity .4s;
 }
 
 .song-modal {
@@ -25,12 +31,8 @@
     right: 0;
     top: 0;
     bottom: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     background-color: rgba(0,0,0,0.5);
     z-index: 10;
-    animation: modalOpacity .4s;
 }
 
 .song-modal h3, .song-modal h4, .song-modal p, .song-modal h5 {
@@ -53,11 +55,12 @@
 }
 
 .song-modal h5 {
+    --modal-h5-before: "";
     font-size: 12px;
     font-weight: 300;
     color: var(--grey-background);
     margin-left: auto;
-    margin-right: 5px;
+    margin-right: 10px;
  }
 
 .song-modal p {
@@ -74,8 +77,11 @@
     height: 400px;
     color: var(--grey-background);
     z-index: 1000;
-    animation: modalBounce .4s;
     pointer-events: visible;
+}
+
+.main-clicked {
+    animation: modalBounce .4s;
 }
 
 .song-modal-content {
@@ -83,9 +89,21 @@
 }
 
 .song-modal-img {
+    opacity: 1;
     height: 340px;
+    width: 340px;
     border: 2px solid #dddddd;
+    transition: opacity .4s;
 }
+
+.song-modal-img img {
+    height: 100%;
+}
+
+.song-modal-img:hover {
+    opacity: .8;
+}
+
 
 .song-modal-info {
     margin-left: var(--std-space);
@@ -111,6 +129,7 @@
     font-family: "Outfit", sans-serif;
     font-weight: 700;
     font-size: 40px;
+    z-index: 1000;
 }
 
 .info-line {
@@ -148,7 +167,7 @@
     font-family: "Outfit", sans-serif;
     font-weight: 700;
     font-size: 14px;
-    width: 30%;
+    width: 50%;
     height: 20%;
 }
 
@@ -167,3 +186,22 @@
 #dance-bar:before {width: var(--dance-width);}
 #energy-bar:before {width: var(--energy-width);}
 #loudness-bar:before {width: var(--loudness-width)}
+
+.modal-left, .modal-right {
+    background-color: white;
+    cursor: pointer;
+    opacity: .2;
+    margin: 0 20px;
+    width: 50px;
+    height: 100px;
+    transition: opacity .4s;
+}
+
+.modal-left:hover, .modal-right:hover {
+    opacity: .9;
+}
+
+.modal-left img, .modal-right img {
+    width: 40px;
+    height: 40px;
+}
