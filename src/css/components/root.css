@@ -1,0 +1,103 @@
+:root {
+    --primary-green: #1db954;
+    --primary-green-hover: #199c47;
+    --primary-green-active: #15853c;
+    --grey-background: #4d4d4d;
+    --grey-background-hover: #1f1f1f;
+    --light-grey-background: #ececec;
+    --light-grey-border: #b6b6b6;
+    --std-space: 20px;
+    --scale-factor: 1.05;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+    height: 100%;
+}
+
+section {
+    width: 100%;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+h1 {
+    margin: 0;
+}
+
+a { text-decoration: none; }
+a:active { text-decoration: none; }
+a:visited {
+    text-decoration: none;
+    color: inherit;
+}
+a:link { text-decoration: none; }
+
+.border {
+    border: solid white 1px;
+}
+
+::-webkit-scrollbar {
+    width: max(5px, min(1vw, 10px));
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: inherit;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: var(--primary-green);
+    width: 5px;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-green-hover);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:active {
+    background: var(--primary-green-active);
+}
+
+@font-face {
+    font-family: "Kumbh Sans";
+    font-weight: 100 900;
+    src: url("../../media/fonts/Kumbh_Sans/KumbhSans-VariableFont_wght.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Staatliches";
+    src: url("../../media/fonts/Staatliches/Staatliches-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Outfit";
+    font-weight: 100 900;
+    src: url("../../media/fonts/Outfit/Outfit-VariableFont_wght.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Montserrat";
+    font-weight: 100 900;
+    src: url("../../media/fonts/Montserrat/Montserrat-VariableFont_wght.ttf") format("truetype");
+
+}

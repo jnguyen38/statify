@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import { CookiesProvider } from "react-cookie";
 
-import './css/Index.css';
 import reportWebVitals from './js/reportWebVitals';
-import NavigationStack from './js/Routes';
 import SiteHeader from './js/Header';
-
+import Home from "./js/Home";
+import Info from "./js/Info";
+import './css/Index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -15,7 +15,10 @@ root.render(
         <BrowserRouter>
             <React.StrictMode>
                 <SiteHeader/>
-                <NavigationStack/>
+                <Routes>
+                    <Route path="/*" element={<Home/>}/>
+                    <Route path="/info" element={<Info/>}/>
+                </Routes>
             </React.StrictMode>
         </BrowserRouter>
     </CookiesProvider>

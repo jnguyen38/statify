@@ -2,7 +2,7 @@
     display: flex;
     justify-content: flex-end;
     background: var(--grey-background);
-    height: max(var(--std-space), 9vh);
+    height: 9vh;
 }
 
 .header a {
