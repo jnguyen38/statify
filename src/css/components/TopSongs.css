@@ -136,8 +136,3 @@
     align-items: center;
     transition: content var(--transition-time--song), opacity var(--transition-time--song), width var(--transition-time--song);
 }
-
-.song-modal {
-    display: none;
-}
-

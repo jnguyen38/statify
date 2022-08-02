@@ -1,26 +1,23 @@
 import React from "react";
 import {useEffect, useState} from "react";
-
-function SongModal(props) {
-    return (
-        <div id={props.modalId} className="song-modal">
-            <h1>hello</h1>
-        </div>
-    )
-}
+import {SongModal} from "./Modal"
 
 function Song(props) {
+    const [show, setShow] = useState(false)
+
     return (
-        <div index={props.index + 1}
-             key={props.track.title}
-             className="song"
-        >
-            <img src={props.track.albumUrl} alt=""/>
-            <h3>{props.track.title}</h3>
-            <SongModal modalId={props.track.title}
-                       modalImg={props.track.albumUrl}
-            />
-        </div>
+        <section>
+            <div index={props.index + 1}
+                 className="song"
+                 onClick={() => setShow(!show)}>
+                <img src={props.track.albumUrl} alt=""/>
+                <h3>{props.track.title}</h3>
+            </div>
+            <SongModal track={props.track}
+                       index={props.index + 1}
+                       show={show}
+                       close={() => setShow(false)}/>
+        </section>
     )
 }
 
@@ -28,7 +25,7 @@ function TopSongsDisplay(props) {
     return (
         <section className="top-songs-display">
             {props.topTracks.map((track, index) => (
-                <Song track={track} index={index}/>
+                <Song track={track} index={index} key={track.title}/>
             ))}
         </section>
     )
@@ -67,6 +64,7 @@ export default function TopSongs(props) {
     const [timeRange, setTimeRange] = useState("short_term")
     const [topSongsLocal, setLocal] = useState({"short_term" : [], "medium_term" : [], "long_term" : []})
 
+
     useEffect(() => {
         const ranges = ["short_term", "medium_term", "long_term"]
         for (let range = 0; range < ranges.length; range++) {
@@ -77,7 +75,7 @@ export default function TopSongs(props) {
                     let tracks = []
                     // eslint-disable-next-line array-callback-return
                     data.body.items.map(track => {
-                        const smallestAlbumImage = track.album.images.reduce(
+                        const largestAlbumImage = track.album.images.reduce(
                             (largest, image) => {
                                 if (image.height > largest.height) return image
                                 return largest
@@ -89,12 +87,19 @@ export default function TopSongs(props) {
                             artist: track.artists[0].name,
                             title: track.name,
                             uri: track.uri,
-                            albumUrl: smallestAlbumImage.url,
+                            albumUrl: largestAlbumImage.url,
+                            popularity: track.popularity,
+                            duration: track.duration_ms,
+                            release: track.album.release_date,
+                            albumName: track.album.name,
+                            id: track.id,
                         })
                     })
+
                     tempLocal[ranges[range]] = tracks
                     setLocal(tempLocal)
                     if (range === 0) setTopTracks(tracks)
+                    console.log(tracks)
                 }).catch(err => {
                 console.log(err);
             });
