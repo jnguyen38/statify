@@ -13,6 +13,14 @@
     --dance-width: 0;
     --energy-width: 0;
     --loudness-width: 0;
+    --transition-time--song-img: .0s;
+}
+
+.no-transition {
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+    -o-transition: none !important;
+    transition: none !important;
 }
 
 html {

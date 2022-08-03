@@ -17,12 +17,19 @@ function Song(props) {
         setClicked(false)
     }
 
+    function handleDisplay() {
+        const divs = document.getElementsByClassName("song-img")
+        Array.prototype.filter.call(divs, e => e.classList.remove("no-transition"))
+        Array.prototype.filter.call(divs, e => e.offsetHeight)
+    }
+
     return (
         <section>
             <div index={props.index + 1}
                  className="song"
+                 onMouseOver={handleDisplay}
                  onClick={handleShow}>
-                <img src={props.track.albumUrl} alt=""/>
+                <img className="song-img" src={props.track.albumUrl} alt=""/>
                 <h3>{props.track.title}</h3>
             </div>
             <SongModal track={props.track}
@@ -66,7 +73,7 @@ function TopSongsDisplay(props) {
     }
 
     return (
-        <section className="top-songs-display">
+        <section className={(props.display) ? "top-songs-display list-view" : "top-songs-display grid-view"}>
             {props.topTracks.map((track, index) => (
                 <Song track={track}
                       index={index}
@@ -102,9 +109,9 @@ function TopSongsOptions(props) {
                  onClick={() => {setTimeRange("long_term")}}>
                 <h2> All Time </h2>
             </div>
-            <div className="top-songs-display-toggle d-flex-cc">
+            <div className="top-songs-display-toggle d-flex-cc" >
                 <img src={gridView} alt=""/>
-                <ToggleSwitch/>
+                <ToggleSwitch setDisplay={props.setDisplay}/>
                 <img src={listView} alt=""/>
             </div>
         </section>
@@ -112,10 +119,14 @@ function TopSongsOptions(props) {
 }
 
 export default function TopSongs(props) {
+    const [display, setDisplay] = useState(false)
     const [topTracks, setTopTracks] = useState([])
     const [timeRange, setTimeRange] = useState("short_term")
     const [topSongsLocal, setLocal] = useState({"short_term" : [], "medium_term" : [], "long_term" : []})
 
+    function handleDisplay(setting) {
+        setDisplay(setting)
+    }
 
     useEffect(() => {
         const ranges = ["short_term", "medium_term", "long_term"]
@@ -169,8 +180,8 @@ export default function TopSongs(props) {
     return (
         <section className="top-songs-container">
             <h1>Your Top Songs from...</h1>
-            <TopSongsOptions setTimeRange={setTimeRange} timeRange={timeRange}/>
-            <TopSongsDisplay topTracks={topTracks}/>
+            <TopSongsOptions setTimeRange={setTimeRange} timeRange={timeRange} setDisplay={handleDisplay}/>
+            <TopSongsDisplay topTracks={topTracks} display={display}/>
         </section>
     )
 }
