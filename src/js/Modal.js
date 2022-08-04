@@ -45,7 +45,7 @@ function SongModalInfo(props) {
 
     return (
         <div className="song-modal-info" >
-            <h3>{props.track.title}</h3>
+            <h3>{props.track.name}</h3>
             <div className="info-line"><p>{props.track.artist}</p></div>
             <div className='br'/>
             <div className="info-line"><h4>Album: </h4><p> {props.track.albumName}</p></div>
@@ -75,12 +75,12 @@ export function SongModal(props) {
     }
 
     return (
-        <div id={props.track.title} className="song-modal d-flex-cc" onClick={props.close}>
+        <div id={props.track.name} className="song-modal d-flex-cc" onClick={props.close}>
             <div className="modal-left d-flex-cc" onClick={e => {e.stopPropagation(); handleNav("left");}}><img src={arrowLeft} alt=""/></div>
             <div className={(props.clicked) ? "song-modal-main main-clicked" : "song-modal-main"} onAnimationEnd={props.functionAnimationEnd} onClick={e => e.stopPropagation()}>
                 <div className="song-modal-content" index={props.index}>
                     <div className="song-modal-img">
-                        <a href={props.track.uri}><img src={props.track.albumUrl} alt="" /></a>
+                        <a href={props.track.uri}><img src={props.track.image} alt="" /></a>
                     </div>
                     <SongModalInfo track={props.track}/>
                 </div>

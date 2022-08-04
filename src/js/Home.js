@@ -3,10 +3,9 @@ import {Route, Routes} from "react-router-dom"
 
 import Login from "./Login";
 import Dashboard from "./Dashboard";
-import TopSongs from "./TopSongs";
 import SpotifyWebApi from "spotify-web-api-node";
 import {useCookies} from "react-cookie";
-import TopArtists from "./TopArtists";
+import TopItems from "./TopItems";
 
 const redirect_uri = ['http://localhost:3000/dashboard'],
     client_id = ['5c42b63580e74a5d98548a11638db40f'],
@@ -86,7 +85,7 @@ export default function Home() {
                                 id: item.id,
                                 uri: item.uri,
                                 totalTracks: item.total_tracks,
-                                released: item.release_date,
+                                release: item.release_date,
                                 name: item.name,
                                 image: largestImg.url
                             })
@@ -120,9 +119,9 @@ export default function Home() {
                     const largestAlbumImage = largestImgOf(track.album.images)
                     return ({
                         artist: track.artists[0].name,
-                        title: track.name,
+                        name: track.name,
                         uri: track.uri,
-                        albumUrl: largestAlbumImage.url,
+                        image: largestAlbumImage.url,
                         popularity: track.popularity,
                         duration: track.duration_ms,
                         release: track.album.release_date,
@@ -157,14 +156,14 @@ export default function Home() {
                 <Routes>
                     <Route path={'/'} element={<Login/>}/>
                     <Route path={'/dashboard'} element={<Dashboard spotifyApi={spotifyApi}/>}/>
-                    <Route path={'/dashboard/top-songs'} element={<TopSongs setTimeRange={setTopSongsTimeRange}
+                    <Route path={'/dashboard/top-songs'} element={<TopItems setTimeRange={setTopSongsTimeRange}
                                                                             timeRange={topSongsTimeRange}
-                                                                            topTracks={topTracks}
+                                                                            topItems={topTracks}
                                                                             handleDisplay={handleTopSongsDisplay}
                                                                             display={topSongsDisplay}/>}/>
-                    <Route path={'/dashboard/top-artists'} element={<TopArtists setTimeRange={setTopArtistsTimeRange}
+                    <Route path={'/dashboard/top-artists'} element={<TopItems setTimeRange={setTopArtistsTimeRange}
                                                                                 timeRange={topArtistsTimeRange}
-                                                                                topArtists={topArtists}
+                                                                                topItems={topArtists}
                                                                                 handleDisplay={handleTopArtistsDisplay}
                                                                                 display={topArtistsDisplay}/>}/>
                 </Routes>

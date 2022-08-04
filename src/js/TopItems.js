@@ -5,7 +5,7 @@ import ToggleSwitch from "./ToggleSwitch";
 import gridView from "../media/grid_view_FILL0_wght300_GRAD0_opsz48.png";
 import listView from "../media/view_list_FILL0_wght300_GRAD0_opsz48.png";
 
-function Song(props) {
+function Item(props) {
     const [clicked, setClicked] = useState(false)
 
     function handleShow() {
@@ -18,31 +18,31 @@ function Song(props) {
     }
 
     function handleDisplay() {
-        const songImg = document.getElementsByClassName("song-img")
-        Array.prototype.filter.call(songImg, e => e.classList.remove("no-transition"))
-        Array.prototype.filter.call(songImg, e => e.offsetHeight)
+        const itemImg = document.getElementsByClassName("item-img")
+        Array.prototype.filter.call(itemImg, e => e.classList.remove("no-transition"))
+        Array.prototype.filter.call(itemImg, e => e.offsetHeight)
     }
 
     return (
         <section>
             <div index={props.index + 1}
-                 className="song"
+                 className="item"
                  onMouseOver={handleDisplay}
                  onClick={handleShow}>
-                <img className="song-img" src={props.track.albumUrl} alt=""/>
-                <h3>{props.track.title}</h3>
+                <img className="item-img" src={props.item.image} alt=""/>
+                <h3>{props.item.name}</h3>
             </div>
-            <SongModal track={props.track} index={props.index + 1}
+            <SongModal track={props.item} index={props.index + 1}
                        right={props.right} left={props.left}
                        show={props.show} close={props.close}
                        clicked={clicked} functionAnimationEnd={handleAnimationEnd}
                        onAnimationEnd={handleAnimationEnd}
-                       className={(clicked) ? "song-clicked" : ""}/>
+                       className={(clicked) ? "item-clicked" : ""}/>
         </section>
     )
 }
 
-function TopSongsDisplay(props) {
+function TopItemsDisplay(props) {
     const init = new Array(50).fill(false)
     const [show, setShow] = useState(init)
     const [reload, setReload] = useState(0)
@@ -75,40 +75,40 @@ function TopSongsDisplay(props) {
     }, [show])
 
     return (
-        <section className={(props.display) ? "top-songs-display list-view" : "top-songs-display grid-view"}>
-            {props.topTracks.map((track, index) => (
-                <Song track={track} index={index}
-                      right={shiftRight} left={shiftLeft}
-                      showModal={showModal} close={closeModal}
-                      show={show[index]} key={track.title}/>
+        <section className={(props.display) ? "top-items-display list-view" : "top-items-display grid-view"}>
+            {props.topItems.map((item, index) => (
+                <Item item={item} index={index}
+                        right={shiftRight} left={shiftLeft}
+                        showModal={showModal} close={closeModal}
+                        show={show[index]} key={Math.random()}/>
             ))}
         </section>
     )
 }
 
-function TopSongsOptions(props) {
+function TopItemsOptions(props) {
     function setTimeRange(term) {
         props.setTimeRange(term)
     }
 
     return (
-        <section className="top-songs-options">
-            <div className={(props.timeRange === "short_term") ? "top-songs-range-selected" : "top-songs-range"}
+        <section className="top-items-options">
+            <div className={(props.timeRange === "short_term") ? "top-items-range-selected" : "top-items-range"}
                  id="short_term"
                  onClick={() => {setTimeRange("short_term")}}>
                 <h2> Last Month </h2>
             </div>
-            <div className={(props.timeRange === "medium_term") ? "top-songs-range-selected" : "top-songs-range"}
+            <div className={(props.timeRange === "medium_term") ? "top-items-range-selected" : "top-items-range"}
                  id="medium_term"
                  onClick={() => {setTimeRange("medium_term")}}>
                 <h2> Six Months </h2>
             </div>
-            <div className={(props.timeRange === "long_term") ? "top-songs-range-selected" : "top-songs-range"}
+            <div className={(props.timeRange === "long_term") ? "top-items-range-selected" : "top-items-range"}
                  id="long_term"
                  onClick={() => {setTimeRange("long_term")}}>
                 <h2> All Time </h2>
             </div>
-            <div className="top-songs-display-toggle d-flex-cc" >
+            <div className="top-items-display-toggle d-flex-cc" >
                 <img src={gridView} alt=""/>
                 <ToggleSwitch setDisplay={props.setDisplay} display={props.display}/>
                 <img src={listView} alt=""/>
@@ -117,15 +117,15 @@ function TopSongsOptions(props) {
     )
 }
 
-export default function TopSongs(props) {
+export default function TopItems(props) {
     return (
-        <section className="top-songs-container">
-            <h1>Your Top Songs from...</h1>
-            <TopSongsOptions setTimeRange={props.setTimeRange}
+        <section className="top-items-container">
+            <h1>Your Top Items from...</h1>
+            <TopItemsOptions setTimeRange={props.setTimeRange}
                              timeRange={props.timeRange}
                              display={props.display}
                              setDisplay={props.handleDisplay}/>
-            <TopSongsDisplay topTracks={props.topTracks} display={props.display}/>
+            <TopItemsDisplay topItems={props.topItems} display={props.display}/>
         </section>
     )
 }
