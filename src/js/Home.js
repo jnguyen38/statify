@@ -27,12 +27,13 @@ export default function Home() {
     }, [cookies.accessToken])
     
     return (
-        <div className="Home">
+        <div className="Home ">
             <main className="Home-header">
                 <Routes>
                     <Route path={'/'} element={<Login/>}/>
                     <Route path={'/dashboard'} element={<Dashboard spotifyApi={spotifyApi}/>}/>
                     <Route path={'/dashboard/top-songs'} element={<TopSongs spotifyApi={spotifyApi}/>}/>
+                    <Route path={'/dashboard/top-artists'} element={<TopSongs spotifyApi={spotifyApi}/>}/>
                 </Routes>
             </main>
         </div>

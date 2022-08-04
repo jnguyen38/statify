@@ -5,14 +5,7 @@
     height: 9vh;
 }
 
-.header a {
-    display: flex;
-    align-items: center;
-}
-
-.header nav {
-    display: flex;
-}
+.header nav {display: flex;}
 
 .header h1 {
     color: white;
@@ -22,10 +15,7 @@
 }
 
 .nav-box {
-    display: flex;
     align-self: center;
-    justify-content: center;
-    align-items: center;
     z-index: 2;
     width: 110px;
     height: 100%;
@@ -40,9 +30,7 @@
     height: 120%;
 }
 
-.nav-box:active {
-    background-color: var(--primary-green-hover);
-}
+.nav-box:active {background-color: var(--primary-green-hover);}
 
 .nav-link {
     color: white;
@@ -58,6 +46,4 @@
     height: max(3vmin, 45px);
 }
 
-#logo-link {
-    margin-right: auto;
-}
+#logo-link {margin-right: auto;}

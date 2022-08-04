@@ -4,12 +4,11 @@ export default function ToggleSwitch(props){
     const [on, setOn] = useState(true)
 
     function handleDisplay() {
-        const divs = document.getElementsByClassName("song-img")
-        Array.prototype.filter.call(divs, e => e.classList.add("no-transition"))
+        const songImg = document.getElementsByClassName("song-img")
+        Array.prototype.filter.call(songImg, e => e.classList.add("no-transition"))
         setOn(!on)
         props.setDisplay(on)
-        Array.prototype.filter.call(divs, e => e.offsetHeight)
-        // Array.prototype.filter.call(divs, e => e.classList.remove("no-transition"))
+        Array.prototype.filter.call(songImg, e => e.offsetHeight)
     }
 
     return (

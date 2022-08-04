@@ -31,14 +31,8 @@
     transition: .4s;
 }
 
-input:checked + .slider {
-    background-color: var(--primary-green);
-}
+input:checked + .slider { background-color: var(--primary-green);}
 
-input:focus + .slider {
-    box-shadow: 0 0 1px var(--primary-green);
-}
+input:focus + .slider {box-shadow: 0 0 1px var(--primary-green);}
 
-input:checked + .slider:before {
-    transform: translateX(26px);
-}
+input:checked + .slider:before {transform: translateX(26px);}

@@ -5,7 +5,7 @@ import ToggleSwitch from "./ToggleSwitch";
 import gridView from "../media/grid_view_FILL0_wght300_GRAD0_opsz48.png";
 import listView from "../media/view_list_FILL0_wght300_GRAD0_opsz48.png";
 
-function Song(props) {
+function Artist(props) {
     const [clicked, setClicked] = useState(false)
 
     function handleShow() {
@@ -18,10 +18,9 @@ function Song(props) {
     }
 
     function handleDisplay() {
-        const songImg = document.getElementsByClassName("song-img")
-        Array.prototype.filter.call(songImg, e => e.classList.remove("no-transition"))
-        Array.prototype.filter.call(songImg, e => e.offsetHeight)
-
+        const divs = document.getElementsByClassName("song-img")
+        Array.prototype.filter.call(divs, e => e.classList.remove("no-transition"))
+        Array.prototype.filter.call(divs, e => e.offsetHeight)
     }
 
     return (
@@ -33,17 +32,21 @@ function Song(props) {
                 <img className="song-img" src={props.track.albumUrl} alt=""/>
                 <h3>{props.track.title}</h3>
             </div>
-            <SongModal track={props.track} index={props.index + 1}
-                       right={props.right} left={props.left}
-                       show={props.show} close={props.close}
-                       clicked={clicked} functionAnimationEnd={handleAnimationEnd}
+            <SongModal track={props.track}
+                       index={props.index + 1}
+                       right={props.right}
+                       left={props.left}
+                       show={props.show}
+                       close={props.close}
+                       clicked={clicked}
+                       functionAnimationEnd={handleAnimationEnd}
                        onAnimationEnd={handleAnimationEnd}
                        className={(clicked) ? "song-clicked" : ""}/>
         </section>
     )
 }
 
-function TopSongsDisplay(props) {
+function TopArtistsDisplay(props) {
     const init = new Array(50).fill(false)
     const [show, setShow] = useState(init)
 
@@ -72,16 +75,19 @@ function TopSongsDisplay(props) {
     return (
         <section className={(props.display) ? "top-songs-display list-view" : "top-songs-display grid-view"}>
             {props.topTracks.map((track, index) => (
-                <Song track={track} index={index}
-                      right={shiftRight} left={shiftLeft}
-                      showModal={showModal} close={closeModal}
+                <Artist track={track}
+                      index={index}
+                      right={shiftRight}
+                      left={shiftLeft}
+                      showModal={showModal}
+                      close={closeModal}
                       show={show[index]} key={track.title}/>
             ))}
         </section>
     )
 }
 
-function TopSongsOptions(props) {
+function TopArtistsOptions(props) {
     function setTimeRange(term) {
         props.setTimeRange(term)
     }
@@ -112,7 +118,7 @@ function TopSongsOptions(props) {
     )
 }
 
-export default function TopSongs(props) {
+export default function TopArtists(props) {
     const [display, setDisplay] = useState(false)
     const [topTracks, setTopTracks] = useState([])
     const [timeRange, setTimeRange] = useState("short_term")
@@ -127,7 +133,7 @@ export default function TopSongs(props) {
         for (let range = 0; range < ranges.length; range++) {
             props.spotifyApi.getMyTopTracks({time_range: ranges[range], limit: 50})
                 .then(data => {
-                     return data.body.items.map(track => {
+                    return data.body.items.map(track => {
                         const largestAlbumImage = track.album.images.reduce(
                             (largest, image) => {
                                 if (image.height > largest.height) return image
@@ -149,18 +155,18 @@ export default function TopSongs(props) {
                     })
                 }).then(tracks => {
                 // eslint-disable-next-line array-callback-return
-                    return props.spotifyApi.getAudioFeaturesForTracks(tracks.map(track => {return track.id}))
-                        .then(data => {
-                            let features = data.body.audio_features
-                            return tracks.map((song, index) => Object.assign({}, song, features[index]))
-                        }).catch(err => {
-                            console.log(err)
+                return props.spotifyApi.getAudioFeaturesForTracks(tracks.map(track => {return track.id}))
+                    .then(data => {
+                        let features = data.body.audio_features
+                        return tracks.map((song, index) => Object.assign({}, song, features[index]))
+                    }).catch(err => {
+                        console.log(err)
                     })
-                }).then(data => {
-                    let tempLocal = topSongsLocal
-                    tempLocal[ranges[range]] = data
-                    setLocal(tempLocal)
-                    if (range === 0) setTopTracks(data)
+            }).then(data => {
+                let tempLocal = topSongsLocal
+                tempLocal[ranges[range]] = data
+                setLocal(tempLocal)
+                if (range === 0) setTopTracks(data)
             }).catch(err => {
                 console.log(err);
             });
@@ -173,9 +179,9 @@ export default function TopSongs(props) {
 
     return (
         <section className="top-songs-container">
-            <h1>Your Top Songs from...</h1>
-            <TopSongsOptions setTimeRange={setTimeRange} timeRange={timeRange} setDisplay={handleDisplay}/>
-            <TopSongsDisplay topTracks={topTracks} display={display}/>
+            <h1>Your Top Artists from...</h1>
+            <TopArtistsOptions setTimeRange={setTimeRange} timeRange={timeRange} setDisplay={handleDisplay}/>
+            <TopArtistsDisplay topTracks={topTracks} display={display}/>
         </section>
     )
 }

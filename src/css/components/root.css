@@ -16,6 +16,12 @@
     --transition-time--song-img: .0s;
 }
 
+.d-flex-cc {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .no-transition {
     -webkit-transition: none !important;
     -moz-transition: none !important;
@@ -23,9 +29,7 @@
     transition: none !important;
 }
 
-html {
-    height: 100%;
-}
+html {height: 100%;}
 
 body {
     margin: 0;
@@ -37,22 +41,16 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-#root {
-    height: 100%;
-}
+#root {height: 100%;}
 
-section {
-    width: 100%;
-}
+section {width: 100%;}
 
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 
-h1 {
-    margin: 0;
-}
+h1, h2, h3, h4, h5, h6, p {margin: 0;}
 
 a { text-decoration: none; }
 a:active { text-decoration: none; }
@@ -62,34 +60,17 @@ a:visited {
 }
 a:link { text-decoration: none; }
 
-.border {
-    border: solid white 1px;
-}
+.border {border: solid white 1px;}
 
-::-webkit-scrollbar {
-    width: max(5px, min(1vw, 10px));
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-    background: inherit;
-}
-
-/* Handle */
+::-webkit-scrollbar {width: max(5px, min(1vw, 10px));}
+::-webkit-scrollbar-track {background: inherit;}
 ::-webkit-scrollbar-thumb {
     background: var(--primary-green);
     width: 5px;
     border-radius: 5px;
 }
-
-::-webkit-scrollbar-thumb:hover {
-    background: var(--primary-green-hover);
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:active {
-    background: var(--primary-green-active);
-}
+::-webkit-scrollbar-thumb:hover {background: var(--primary-green-hover);}
+::-webkit-scrollbar-thumb:active {background: var(--primary-green-active);}
 
 @font-face {
     font-family: "Kumbh Sans";
@@ -98,19 +79,7 @@ a:link { text-decoration: none; }
 }
 
 @font-face {
-    font-family: "Staatliches";
-    src: url("../../media/fonts/Staatliches/Staatliches-Regular.ttf") format("truetype");
-}
-
-@font-face {
     font-family: "Outfit";
     font-weight: 100 900;
     src: url("../../media/fonts/Outfit/Outfit-VariableFont_wght.ttf") format("truetype");
-}
-
-@font-face {
-    font-family: "Montserrat";
-    font-weight: 100 900;
-    src: url("../../media/fonts/Montserrat/Montserrat-VariableFont_wght.ttf") format("truetype");
-
 }
