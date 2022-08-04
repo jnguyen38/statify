@@ -13,7 +13,7 @@ export default function ToggleSwitch(props){
 
     return (
         <label className="toggle-switch" onClick={handleDisplay}>
-            <input name="top-display" type="checkbox" onClick={e => e.stopPropagation()} checked={!(on)}/>
+            <input name="top-display" type="checkbox" onClick={e => e.stopPropagation()} checked={!(on)} onChange={Math.random}/>
             <div className="slider"></div>
         </label>
     )

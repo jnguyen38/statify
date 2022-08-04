@@ -21,12 +21,22 @@ const spotifyApi = new SpotifyWebApi({
 export default function Home() {
     const [topSongsLocal, setTopSongsLocal] = useState({"short_term" : [], "medium_term" : [], "long_term" : []})
     const [topTracks, setTopTracks] = useState([])
-    const [timeRange, setTimeRange] = useState("short_term")
+    const [topSongsTimeRange, setTopSongsTimeRange] = useState("short_term")
+    const [topArtistsLocal, setTopArtistsLocal] = useState({"short_term" : [], "medium_term" : [], "long_term" : []})
+    const [topArtists, setTopArtists] = useState([])
+    const [topArtistsTimeRange, setTopArtistsTimeRange] = useState("short_term")
     const [display, setDisplay] = useState(false)
     const [cookies] = useCookies()
 
     function handleDisplay(setting) {
         setDisplay(setting)
+    }
+
+    function largestImgOf(array) {
+        array.reduce((first, second) => {
+            if (first.height > second.height) return first
+            return second
+        }, array[0])
     }
     
     useEffect(() => {
@@ -37,17 +47,29 @@ export default function Home() {
     useEffect(() => {
         if (!cookies.accessToken) return
         const ranges = ["short_term", "medium_term", "long_term"]
-        for (let range = 0; range < ranges.length; range++) {
-            spotifyApi.getMyTopTracks({time_range: ranges[range], limit: 50})
+        for (const range of ranges) {
+            spotifyApi.getMyTopArtists({time_range: range, limit: 50})
+                .then(data => {
+                    console.log(range)
+                    console.log(data)
+                }).catch(err => {
+                    console.log(err)
+            })
+        }
+    }, [topArtistsLocal, cookies.accessToken])
+    
+    useEffect(() => {
+        setTopArtists(topArtistsLocal[topArtistsTimeRange])  
+    }, [topArtistsLocal, topArtistsTimeRange])
+
+    useEffect(() => {
+        if (!cookies.accessToken) return
+        const ranges = ["short_term", "medium_term", "long_term"]
+        for (const range of ranges) {
+            spotifyApi.getMyTopTracks({time_range: range, limit: 50})
                 .then(data => {
                     return data.body.items.map(track => {
-                        const largestAlbumImage = track.album.images.reduce(
-                            (largest, image) => {
-                                if (image.height > largest.height) return image
-                                return largest
-                            },
-                            track.album.images[0]
-                        )
+                        const largestAlbumImage = largestImgOf(track.album.images)
                         return ({
                             artist: track.artists[0].name,
                             title: track.name,
@@ -70,10 +92,9 @@ export default function Home() {
                     })
             }).then(data => {
                 let tempLocal = topSongsLocal
-                tempLocal[ranges[range]] = data
+                tempLocal[range] = data
                 setTopSongsLocal(tempLocal)
-                if (range === 0) setTopTracks(data)
-                console.log("Top Tracks API Call")
+                if (range === "short_term") setTopTracks(data)
             }).catch(err => {
                 console.log(err);
             });
@@ -81,8 +102,8 @@ export default function Home() {
     }, [topSongsLocal, cookies.accessToken])
 
     useEffect(() => {
-        setTopTracks(topSongsLocal[timeRange])
-    }, [timeRange, topSongsLocal])
+        setTopTracks(topSongsLocal[topSongsTimeRange])
+    }, [topSongsLocal, topSongsTimeRange])
     
     return (
         <div className="Home ">
@@ -90,8 +111,8 @@ export default function Home() {
                 <Routes>
                     <Route path={'/'} element={<Login/>}/>
                     <Route path={'/dashboard'} element={<Dashboard spotifyApi={spotifyApi}/>}/>
-                    <Route path={'/dashboard/top-songs'} element={<TopSongs setTimeRange={setTimeRange}
-                                                                            timeRange={timeRange}
+                    <Route path={'/dashboard/top-songs'} element={<TopSongs setTimeRange={setTopSongsTimeRange}
+                                                                            timeRange={topSongsTimeRange}
                                                                             topTracks={topTracks}
                                                                             handleDisplay={handleDisplay}
                                                                             display={display}/>}/>
