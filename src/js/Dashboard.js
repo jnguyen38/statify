@@ -18,20 +18,22 @@ export default function Dashboard() {
     })
 
     useEffect(() => {
-        if (!token) return
+        if (!token || cookies.accessToken) return
         setCookie('accessToken', token, {path: '/'})
-    }, [setCookie, token])
+    }, [cookies.accessToken, setCookie, token])
 
-    return (
+    if (cookies.accessToken) return (
         <section>
             <h1>Dashboard</h1>
             <div className="dashboard-container">
                 <Link to={'./top-songs'}>
-                    <div className="dashboard-banner"><h2>Top Songs</h2></div>
+                    <div className="dashboard-banner d-flex-cc"><h2>Top Songs</h2></div>
                 </Link>
-                <div className="dashboard-banner"><h2>Top Artists</h2></div>
-                <div className="dashboard-banner"><h2>Top Genres</h2></div>
-                <div className="dashboard-banner"><h2>Playlist Creator</h2></div>
+                <Link to={'./top-artists'}>
+                    <div className="dashboard-banner d-flex-cc"><h2>Top Artists</h2></div>
+                </Link>
+                <div className="dashboard-banner d-flex-cc"><h2>Top Genres</h2></div>
+                <div className="dashboard-banner d-flex-cc"><h2>Playlist Creator</h2></div>
             </div>
         </section>
     )

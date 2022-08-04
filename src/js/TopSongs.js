@@ -18,9 +18,9 @@ function Song(props) {
     }
 
     function handleDisplay() {
-        const divs = document.getElementsByClassName("song-img")
-        Array.prototype.filter.call(divs, e => e.classList.remove("no-transition"))
-        Array.prototype.filter.call(divs, e => e.offsetHeight)
+        const songImg = document.getElementsByClassName("song-img")
+        Array.prototype.filter.call(songImg, e => e.classList.remove("no-transition"))
+        Array.prototype.filter.call(songImg, e => e.offsetHeight)
     }
 
     return (
@@ -32,14 +32,10 @@ function Song(props) {
                 <img className="song-img" src={props.track.albumUrl} alt=""/>
                 <h3>{props.track.title}</h3>
             </div>
-            <SongModal track={props.track}
-                       index={props.index + 1}
-                       right={props.right}
-                       left={props.left}
-                       show={props.show}
-                       close={props.close}
-                       clicked={clicked}
-                       functionAnimationEnd={handleAnimationEnd}
+            <SongModal track={props.track} index={props.index + 1}
+                       right={props.right} left={props.left}
+                       show={props.show} close={props.close}
+                       clicked={clicked} functionAnimationEnd={handleAnimationEnd}
                        onAnimationEnd={handleAnimationEnd}
                        className={(clicked) ? "song-clicked" : ""}/>
         </section>
@@ -49,6 +45,7 @@ function Song(props) {
 function TopSongsDisplay(props) {
     const init = new Array(50).fill(false)
     const [show, setShow] = useState(init)
+    const [reload, setReload] = useState(0)
 
     function shiftLeft() {
         let tempShow = show
@@ -70,17 +67,19 @@ function TopSongsDisplay(props) {
 
     function closeModal() {
         setShow(init)
+        reload.toString()
     }
+
+    useEffect(() => {
+        setReload(Math.random())
+    }, [show])
 
     return (
         <section className={(props.display) ? "top-songs-display list-view" : "top-songs-display grid-view"}>
             {props.topTracks.map((track, index) => (
-                <Song track={track}
-                      index={index}
-                      right={shiftRight}
-                      left={shiftLeft}
-                      showModal={showModal}
-                      close={closeModal}
+                <Song track={track} index={index}
+                      right={shiftRight} left={shiftLeft}
+                      showModal={showModal} close={closeModal}
                       show={show[index]} key={track.title}/>
             ))}
         </section>
@@ -120,68 +119,16 @@ function TopSongsOptions(props) {
 
 export default function TopSongs(props) {
     const [display, setDisplay] = useState(false)
-    const [topTracks, setTopTracks] = useState([])
-    const [timeRange, setTimeRange] = useState("short_term")
-    const [topSongsLocal, setLocal] = useState({"short_term" : [], "medium_term" : [], "long_term" : []})
 
     function handleDisplay(setting) {
         setDisplay(setting)
     }
 
-    useEffect(() => {
-        const ranges = ["short_term", "medium_term", "long_term"]
-        for (let range = 0; range < ranges.length; range++) {
-            props.spotifyApi.getMyTopTracks({time_range: ranges[range], limit: 50})
-                .then(data => {
-                     return data.body.items.map(track => {
-                        const largestAlbumImage = track.album.images.reduce(
-                            (largest, image) => {
-                                if (image.height > largest.height) return image
-                                return largest
-                            },
-                            track.album.images[0]
-                        )
-                        return ({
-                            artist: track.artists[0].name,
-                            title: track.name,
-                            uri: track.uri,
-                            albumUrl: largestAlbumImage.url,
-                            popularity: track.popularity,
-                            duration: track.duration_ms,
-                            release: track.album.release_date,
-                            albumName: track.album.name,
-                            id: track.id,
-                        })
-                    })
-                }).then(tracks => {
-                // eslint-disable-next-line array-callback-return
-                    return props.spotifyApi.getAudioFeaturesForTracks(tracks.map(track => {return track.id}))
-                        .then(data => {
-                            let features = data.body.audio_features
-                            return tracks.map((song, index) => Object.assign({}, song, features[index]))
-                        }).catch(err => {
-                            console.log(err)
-                    })
-                }).then(data => {
-                    let tempLocal = topSongsLocal
-                    tempLocal[ranges[range]] = data
-                    setLocal(tempLocal)
-                    if (range === 0) setTopTracks(data)
-            }).catch(err => {
-                console.log(err);
-            });
-        }
-    }, [props.spotifyApi, topSongsLocal])
-
-    useEffect(() => {
-        setTopTracks(topSongsLocal[timeRange])
-    }, [timeRange, props.spotifyApi, topSongsLocal])
-
     return (
         <section className="top-songs-container">
             <h1>Your Top Songs from...</h1>
-            <TopSongsOptions setTimeRange={setTimeRange} timeRange={timeRange} setDisplay={handleDisplay}/>
-            <TopSongsDisplay topTracks={topTracks} display={display}/>
+            <TopSongsOptions setTimeRange={props.setTimeRange} timeRange={props.timeRange} setDisplay={handleDisplay}/>
+            <TopSongsDisplay topTracks={props.topTracks} display={display}/>
         </section>
     )
 }
