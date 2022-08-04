@@ -18,30 +18,26 @@ function Artist(props) {
     }
 
     function handleDisplay() {
-        const divs = document.getElementsByClassName("song-img")
-        Array.prototype.filter.call(divs, e => e.classList.remove("no-transition"))
-        Array.prototype.filter.call(divs, e => e.offsetHeight)
+        const artistImg = document.getElementsByClassName("artist-img")
+        Array.prototype.filter.call(artistImg, e => e.classList.remove("no-transition"))
+        Array.prototype.filter.call(artistImg, e => e.offsetHeight)
     }
 
     return (
         <section>
             <div index={props.index + 1}
-                 className="song"
+                 className="artist"
                  onMouseOver={handleDisplay}
                  onClick={handleShow}>
-                <img className="song-img" src={props.track.albumUrl} alt=""/>
-                <h3>{props.track.title}</h3>
+                <img className="artist-img" src={props.artist.image} alt=""/>
+                <h3>{props.artist.name}</h3>
             </div>
-            <SongModal track={props.track}
-                       index={props.index + 1}
-                       right={props.right}
-                       left={props.left}
-                       show={props.show}
-                       close={props.close}
-                       clicked={clicked}
-                       functionAnimationEnd={handleAnimationEnd}
+            <SongModal track={props.artist} index={props.index + 1}
+                       right={props.right} left={props.left}
+                       show={props.show} close={props.close}
+                       clicked={clicked} functionAnimationEnd={handleAnimationEnd}
                        onAnimationEnd={handleAnimationEnd}
-                       className={(clicked) ? "song-clicked" : ""}/>
+                       className={(clicked) ? "artist-clicked" : ""}/>
         </section>
     )
 }
@@ -49,6 +45,7 @@ function Artist(props) {
 function TopArtistsDisplay(props) {
     const init = new Array(50).fill(false)
     const [show, setShow] = useState(init)
+    const [reload, setReload] = useState(0)
 
     function shiftLeft() {
         let tempShow = show
@@ -70,18 +67,20 @@ function TopArtistsDisplay(props) {
 
     function closeModal() {
         setShow(init)
+        reload.toString()
     }
 
+    useEffect(() => {
+        setReload(Math.random())
+    }, [show])
+
     return (
-        <section className={(props.display) ? "top-songs-display list-view" : "top-songs-display grid-view"}>
-            {props.topTracks.map((track, index) => (
-                <Artist track={track}
-                      index={index}
-                      right={shiftRight}
-                      left={shiftLeft}
-                      showModal={showModal}
-                      close={closeModal}
-                      show={show[index]} key={track.title}/>
+        <section className={(props.display) ? "top-artists-display list-view" : "top-artists-display grid-view"}>
+            {props.topArtists.map((artist, index) => (
+                <Artist artist={artist} index={index}
+                        right={shiftRight} left={shiftLeft}
+                        showModal={showModal} close={closeModal}
+                        show={show[index]} key={Math.random()}/>
             ))}
         </section>
     )
@@ -93,25 +92,25 @@ function TopArtistsOptions(props) {
     }
 
     return (
-        <section className="top-songs-options">
-            <div className={(props.timeRange === "short_term") ? "top-songs-range-selected" : "top-songs-range"}
+        <section className="top-artists-options">
+            <div className={(props.timeRange === "short_term") ? "top-artists-range-selected" : "top-artists-range"}
                  id="short_term"
                  onClick={() => {setTimeRange("short_term")}}>
                 <h2> Last Month </h2>
             </div>
-            <div className={(props.timeRange === "medium_term") ? "top-songs-range-selected" : "top-songs-range"}
+            <div className={(props.timeRange === "medium_term") ? "top-artists-range-selected" : "top-artists-range"}
                  id="medium_term"
                  onClick={() => {setTimeRange("medium_term")}}>
                 <h2> Six Months </h2>
             </div>
-            <div className={(props.timeRange === "long_term") ? "top-songs-range-selected" : "top-songs-range"}
+            <div className={(props.timeRange === "long_term") ? "top-artists-range-selected" : "top-artists-range"}
                  id="long_term"
                  onClick={() => {setTimeRange("long_term")}}>
                 <h2> All Time </h2>
             </div>
-            <div className="top-songs-display-toggle d-flex-cc" >
+            <div className="top-artists-display-toggle d-flex-cc" >
                 <img src={gridView} alt=""/>
-                <ToggleSwitch setDisplay={props.setDisplay}/>
+                <ToggleSwitch setDisplay={props.setDisplay} display={props.display}/>
                 <img src={listView} alt=""/>
             </div>
         </section>
@@ -119,69 +118,14 @@ function TopArtistsOptions(props) {
 }
 
 export default function TopArtists(props) {
-    const [display, setDisplay] = useState(false)
-    const [topTracks, setTopTracks] = useState([])
-    const [timeRange, setTimeRange] = useState("short_term")
-    const [topSongsLocal, setLocal] = useState({"short_term" : [], "medium_term" : [], "long_term" : []})
-
-    function handleDisplay(setting) {
-        setDisplay(setting)
-    }
-
-    useEffect(() => {
-        const ranges = ["short_term", "medium_term", "long_term"]
-        for (let range = 0; range < ranges.length; range++) {
-            props.spotifyApi.getMyTopTracks({time_range: ranges[range], limit: 50})
-                .then(data => {
-                    return data.body.items.map(track => {
-                        const largestAlbumImage = track.album.images.reduce(
-                            (largest, image) => {
-                                if (image.height > largest.height) return image
-                                return largest
-                            },
-                            track.album.images[0]
-                        )
-                        return ({
-                            artist: track.artists[0].name,
-                            title: track.name,
-                            uri: track.uri,
-                            albumUrl: largestAlbumImage.url,
-                            popularity: track.popularity,
-                            duration: track.duration_ms,
-                            release: track.album.release_date,
-                            albumName: track.album.name,
-                            id: track.id,
-                        })
-                    })
-                }).then(tracks => {
-                // eslint-disable-next-line array-callback-return
-                return props.spotifyApi.getAudioFeaturesForTracks(tracks.map(track => {return track.id}))
-                    .then(data => {
-                        let features = data.body.audio_features
-                        return tracks.map((song, index) => Object.assign({}, song, features[index]))
-                    }).catch(err => {
-                        console.log(err)
-                    })
-            }).then(data => {
-                let tempLocal = topSongsLocal
-                tempLocal[ranges[range]] = data
-                setLocal(tempLocal)
-                if (range === 0) setTopTracks(data)
-            }).catch(err => {
-                console.log(err);
-            });
-        }
-    }, [props.spotifyApi, topSongsLocal])
-
-    useEffect(() => {
-        setTopTracks(topSongsLocal[timeRange])
-    }, [timeRange, props.spotifyApi, topSongsLocal])
-
     return (
-        <section className="top-songs-container">
+        <section className="top-artists-container">
             <h1>Your Top Artists from...</h1>
-            <TopArtistsOptions setTimeRange={setTimeRange} timeRange={timeRange} setDisplay={handleDisplay}/>
-            <TopArtistsDisplay topTracks={topTracks} display={display}/>
+            <TopArtistsOptions setTimeRange={props.setTimeRange}
+                             timeRange={props.timeRange}
+                             display={props.display}
+                             setDisplay={props.handleDisplay}/>
+            <TopArtistsDisplay topArtists={props.topArtists} display={props.display}/>
         </section>
     )
 }
