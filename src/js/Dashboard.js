@@ -18,11 +18,11 @@ export default function Dashboard() {
     })
 
     useEffect(() => {
-        if (!token) return
+        if (!token || cookies.accessToken) return
         setCookie('accessToken', token, {path: '/'})
-    }, [setCookie, token])
+    }, [cookies.accessToken, setCookie, token])
 
-    return (
+    if (cookies.accessToken) return (
         <section>
             <h1>Dashboard</h1>
             <div className="dashboard-container">

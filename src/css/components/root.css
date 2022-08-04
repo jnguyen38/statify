@@ -14,6 +14,7 @@
     --energy-width: 0;
     --loudness-width: 0;
     --transition-time--song-img: .0s;
+    --body-before-content: none;
 }
 
 .d-flex-cc {
@@ -29,7 +30,28 @@
     transition: none !important;
 }
 
+@media only screen and (max-width: 992px) {
+    body{--body-before-content: "Sorry, we haven't designed a layout for your device yet. Updates coming soon, though!";}
+}
+
 html {height: 100%;}
+
+body:before {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    content: var(--body-before-content);
+    position: absolute;
+    width: 80%;
+    height: 100%;
+    z-index: 1000;
+    padding: 0 10%;
+    background-color: rgba(0,0,0,.9);
+    color: white;
+    font-family: "Outfit", sans-serif;
+    font-size: 28px;
+}
 
 body {
     margin: 0;
