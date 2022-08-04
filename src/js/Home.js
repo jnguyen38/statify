@@ -22,7 +22,12 @@ export default function Home() {
     const [topSongsLocal, setTopSongsLocal] = useState({"short_term" : [], "medium_term" : [], "long_term" : []})
     const [topTracks, setTopTracks] = useState([])
     const [timeRange, setTimeRange] = useState("short_term")
+    const [display, setDisplay] = useState(false)
     const [cookies] = useCookies()
+
+    function handleDisplay(setting) {
+        setDisplay(setting)
+    }
     
     useEffect(() => {
         if (!cookies.accessToken) return
@@ -87,7 +92,9 @@ export default function Home() {
                     <Route path={'/dashboard'} element={<Dashboard spotifyApi={spotifyApi}/>}/>
                     <Route path={'/dashboard/top-songs'} element={<TopSongs setTimeRange={setTimeRange}
                                                                             timeRange={timeRange}
-                                                                            topTracks={topTracks}/>}/>
+                                                                            topTracks={topTracks}
+                                                                            handleDisplay={handleDisplay}
+                                                                            display={display}/>}/>
                     <Route path={'/dashboard/top-artists'} element={<TopSongs spotifyApi={spotifyApi}/>}/>
                 </Routes>
             </main>

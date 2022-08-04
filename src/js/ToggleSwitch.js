@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 
 export default function ToggleSwitch(props){
-    const [on, setOn] = useState(true)
+    const [on, setOn] = useState(!(props.display))
 
     function handleDisplay() {
         const songImg = document.getElementsByClassName("song-img")
@@ -13,7 +13,7 @@ export default function ToggleSwitch(props){
 
     return (
         <label className="toggle-switch" onClick={handleDisplay}>
-            <input name="top-display" type="checkbox" onClick={e => e.stopPropagation()}/>
+            <input name="top-display" type="checkbox" onClick={e => e.stopPropagation()} checked={!(on)}/>
             <div className="slider"></div>
         </label>
     )

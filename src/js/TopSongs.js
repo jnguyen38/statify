@@ -110,7 +110,7 @@ function TopSongsOptions(props) {
             </div>
             <div className="top-songs-display-toggle d-flex-cc" >
                 <img src={gridView} alt=""/>
-                <ToggleSwitch setDisplay={props.setDisplay}/>
+                <ToggleSwitch setDisplay={props.setDisplay} display={props.display}/>
                 <img src={listView} alt=""/>
             </div>
         </section>
@@ -118,17 +118,14 @@ function TopSongsOptions(props) {
 }
 
 export default function TopSongs(props) {
-    const [display, setDisplay] = useState(false)
-
-    function handleDisplay(setting) {
-        setDisplay(setting)
-    }
-
     return (
         <section className="top-songs-container">
             <h1>Your Top Songs from...</h1>
-            <TopSongsOptions setTimeRange={props.setTimeRange} timeRange={props.timeRange} setDisplay={handleDisplay}/>
-            <TopSongsDisplay topTracks={props.topTracks} display={display}/>
+            <TopSongsOptions setTimeRange={props.setTimeRange}
+                             timeRange={props.timeRange}
+                             display={props.display}
+                             setDisplay={props.handleDisplay}/>
+            <TopSongsDisplay topTracks={props.topTracks} display={props.display}/>
         </section>
     )
 }
