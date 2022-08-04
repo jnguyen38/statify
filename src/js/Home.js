@@ -33,7 +33,7 @@ export default function Home() {
     }
 
     function largestImgOf(array) {
-        array.reduce((first, second) => {
+        return array.reduce((first, second) => {
             if (first.height > second.height) return first
             return second
         }, array[0])
@@ -48,12 +48,11 @@ export default function Home() {
         if (!cookies.accessToken) return
         const ranges = ["short_term", "medium_term", "long_term"]
         for (const range of ranges) {
-            spotifyApi.getMyTopArtists({time_range: range, limit: 50})
-                .then(data => {
-                    console.log(range)
-                    console.log(data)
-                }).catch(err => {
-                    console.log(err)
+            spotifyApi.getMyTopArtists({time_range: range, limit: 50}).then(data => {
+                console.log(range)
+                console.log(data)
+            }).catch(err => {
+                console.log(err)
             })
         }
     }, [topArtistsLocal, cookies.accessToken])
@@ -66,30 +65,29 @@ export default function Home() {
         if (!cookies.accessToken) return
         const ranges = ["short_term", "medium_term", "long_term"]
         for (const range of ranges) {
-            spotifyApi.getMyTopTracks({time_range: range, limit: 50})
-                .then(data => {
-                    return data.body.items.map(track => {
-                        const largestAlbumImage = largestImgOf(track.album.images)
-                        return ({
-                            artist: track.artists[0].name,
-                            title: track.name,
-                            uri: track.uri,
-                            albumUrl: largestAlbumImage.url,
-                            popularity: track.popularity,
-                            duration: track.duration_ms,
-                            release: track.album.release_date,
-                            albumName: track.album.name,
-                            id: track.id,
-                        })
+            spotifyApi.getMyTopTracks({time_range: range, limit: 50}).then(data => {
+                return data.body.items.map(track => {
+                    const largestAlbumImage = largestImgOf(track.album.images)
+                    return ({
+                        artist: track.artists[0].name,
+                        title: track.name,
+                        uri: track.uri,
+                        albumUrl: largestAlbumImage.url,
+                        popularity: track.popularity,
+                        duration: track.duration_ms,
+                        release: track.album.release_date,
+                        albumName: track.album.name,
+                        id: track.id,
                     })
-                }).then(tracks => {
+                })
+            }).then(tracks => {
                 return spotifyApi.getAudioFeaturesForTracks(tracks.map(track => {return track.id}))
-                    .then(data => {
-                        let features = data.body.audio_features
-                        return tracks.map((song, index) => Object.assign({}, song, features[index]))
-                    }).catch(err => {
-                        console.log(err)
-                    })
+                .then(data => {
+                    let features = data.body.audio_features
+                    return tracks.map((song, index) => Object.assign({}, song, features[index]))
+                }).catch(err => {
+                    console.log(err)
+                })
             }).then(data => {
                 let tempLocal = topSongsLocal
                 tempLocal[range] = data
