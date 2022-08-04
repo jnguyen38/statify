@@ -18,7 +18,7 @@ function Item(props) {
     }
 
     function handleDisplay() {
-        const itemImg = document.getElementsByClassName("item-img")
+        const itemImg = document.getElementsByClassName("no-transition")
         Array.prototype.filter.call(itemImg, e => e.classList.remove("no-transition"))
         Array.prototype.filter.call(itemImg, e => e.offsetHeight)
     }

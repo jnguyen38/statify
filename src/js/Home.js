@@ -21,11 +21,13 @@ export default function Home() {
     const [topSongsLocal, setTopSongsLocal] = useState({"short_term" : [], "medium_term" : [], "long_term" : []})
     const [topTracks, setTopTracks] = useState([])
     const [topSongsTimeRange, setTopSongsTimeRange] = useState("short_term")
+    const [topSongsDisplay, setTopSongsDisplay] = useState(false)
+
     const [topArtistsLocal, setTopArtistsLocal] = useState({"short_term" : [], "medium_term" : [], "long_term" : []})
     const [topArtists, setTopArtists] = useState([])
     const [topArtistsTimeRange, setTopArtistsTimeRange] = useState("short_term")
-    const [topSongsDisplay, setTopSongsDisplay] = useState(false)
     const [topArtistsDisplay, setTopArtistsDisplay] = useState(false)
+
     const [cookies] = useCookies()
 
     function handleTopSongsDisplay(setting) {
@@ -158,14 +160,16 @@ export default function Home() {
                     <Route path={'/dashboard'} element={<Dashboard spotifyApi={spotifyApi}/>}/>
                     <Route path={'/dashboard/top-songs'} element={<TopItems setTimeRange={setTopSongsTimeRange}
                                                                             timeRange={topSongsTimeRange}
+                                                                            itemType={"Song"}
                                                                             topItems={topTracks}
                                                                             handleDisplay={handleTopSongsDisplay}
                                                                             display={topSongsDisplay}/>}/>
                     <Route path={'/dashboard/top-artists'} element={<TopItems setTimeRange={setTopArtistsTimeRange}
-                                                                                timeRange={topArtistsTimeRange}
-                                                                                topItems={topArtists}
-                                                                                handleDisplay={handleTopArtistsDisplay}
-                                                                                display={topArtistsDisplay}/>}/>
+                                                                              timeRange={topArtistsTimeRange}
+                                                                              itemType={"Artist"}
+                                                                              topItems={topArtists}
+                                                                              handleDisplay={handleTopArtistsDisplay}
+                                                                              display={topArtistsDisplay}/>}/>
                 </Routes>
             </main>
         </div>

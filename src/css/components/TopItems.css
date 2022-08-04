@@ -22,7 +22,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: flex-end;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 
 }
 
@@ -85,33 +85,39 @@
     --top-item-height--before-hover: 100px;
     --width--item-before: 10px;
     --height--item-before: 100px;
+    --before-font-size: 36px;
     --starting-content--before: "";
     --starting-opacity--item-before: 0;
     --starting-margin--img: 15px;
     --ending-margin--img: 0;
+    --top-item-grid-gap: 15px;
+    --top-item-box-shadow: 5px 5px 5px var(--light-grey-border);
 
 }
 
 .list-view {
     --grid-layout--top-items: 1fr;
-    --top-item-height: 50px;
-    --starting-img-dim: 30px;
-    --top-item-img-dim--hover: 40px;
+    --top-item-height: 60px;
+    --starting-img-dim: 45px;
+    --top-item-img-dim--hover: 50px;
     --top-item-width--before-hover: 50px;
     --top-item-height--before-hover: 50px;
-    --width--item-before: 50px;
+    --width--item-before: 40px;
     --height--item-before: 50px;
+    --before-font-size: 20px;
     --starting-content--before: attr(index);
     --starting-opacity--item-before: .8;
     --starting-margin--img: 50px;
     --ending-margin--img: 60px;
+    --top-item-grid-gap: 5px;
+    --top-item-box-shadow: 2px 2px 2px var(--light-grey-border);
 }
 
 .top-items-display {
     display: grid;
     justify-content: space-between;
     grid-template-columns: var(--grid-layout--top-items);
-    grid-gap: 15px;
+    grid-gap: var(--top-item-grid-gap);
     background-color: white;
     margin-bottom: var(--std-space);
     transition: opacity var(--transition-time--item);
@@ -124,7 +130,7 @@
     --opacity--item-before: var(--starting-opacity--item-before);
     --img-margin--item: var(--starting-margin--img);
     --top-item-img-dim: var(--starting-img-dim);
-    box-shadow: 5px 5px 5px var(--light-grey-border);
+    box-shadow: var(--top-item-box-shadow);
     background-color: var(--light-grey-background);
     position: relative;
     display: flex;
@@ -133,6 +139,7 @@
     text-align: left;
     height: var(--top-item-height);
     font-weight: 200;
+    font-family: "Outfit", sans-serif;
     cursor: pointer;
     transition: background-color var(--transition-time--item), color var(--transition-time--item);
 }
@@ -172,6 +179,7 @@
     width: var(--width--item-before);
     height: var(--height--item-before);
     background-color: var(--light-grey-background);
+    font-size: var(--before-font-size);
     color: black;
     display: flex;
     justify-content: center;
