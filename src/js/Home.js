@@ -160,13 +160,13 @@ export default function Home() {
                     <Route path={'/dashboard'} element={<Dashboard spotifyApi={spotifyApi}/>}/>
                     <Route path={'/dashboard/top-songs'} element={<TopItems setTimeRange={setTopSongsTimeRange}
                                                                             timeRange={topSongsTimeRange}
-                                                                            itemType={"Song"}
+                                                                            itemType="Songs"
                                                                             topItems={topTracks}
                                                                             handleDisplay={handleTopSongsDisplay}
                                                                             display={topSongsDisplay}/>}/>
                     <Route path={'/dashboard/top-artists'} element={<TopItems setTimeRange={setTopArtistsTimeRange}
                                                                               timeRange={topArtistsTimeRange}
-                                                                              itemType={"Artist"}
+                                                                              itemType="Artists"
                                                                               topItems={topArtists}
                                                                               handleDisplay={handleTopArtistsDisplay}
                                                                               display={topArtistsDisplay}/>}/>

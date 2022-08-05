@@ -12,8 +12,8 @@
 
 .br {margin-bottom: .8em;}
 
-.song-clicked {
-    animation: modalOpacity .4s;
+.item-clicked {
+    animation: modalOpacity 1s;
 }
 
 .song-modal {
@@ -74,17 +74,35 @@
 .song-modal-content {display: flex;}
 
 .song-modal-img {
+    --modal-img-opactiy: 0;
     opacity: 1;
     height: 340px;
     width: 340px;
     border: 2px solid #dddddd;
+}
+
+.song-modal-img:hover {
+    --modal-img-opactiy: .5;
+}
+
+.song-modal-img:before {
+    content: "Open in Spotify";
+    opacity: var(--modal-img-opactiy);
+    cursor: pointer;
+    background-color: black;
+    color: white;
+    font-family: "Outfit", sans-serif;
+    font-weight: 600;
     transition: opacity .4s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 340px;
+    height: 340px;
 }
 
 .song-modal-img img {height: 100%;}
-
-.song-modal-img:hover {opacity: .8;}
-
 
 .song-modal-info {
     margin-left: var(--std-space);

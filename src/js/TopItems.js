@@ -26,11 +26,13 @@ function Item(props) {
     return (
         <section>
             <div index={props.index + 1}
-                 className="item"
+                 title={(props.index + 1).toString() + " / " + props.item.name}
+                 className= {(props.itemType === "Songs") ? "song" : "artist"}
                  onMouseOver={handleDisplay}
                  onClick={handleShow}>
-                <img className="item-img" src={props.item.image} alt=""/>
-                <h3>{props.item.name}</h3>
+                <img className={(props.itemType === "Songs") ? "song-img" : "artist-img"}
+                     src={props.item.image} alt=""/>
+                {(props.itemType === "Songs") ? (<h3>{props.item.name}</h3>) : null}
             </div>
             <SongModal track={props.item} index={props.index + 1}
                        right={props.right} left={props.left}
@@ -78,9 +80,10 @@ function TopItemsDisplay(props) {
         <section className={(props.display) ? "top-items-display list-view" : "top-items-display grid-view"}>
             {props.topItems.map((item, index) => (
                 <Item item={item} index={index}
-                        right={shiftRight} left={shiftLeft}
-                        showModal={showModal} close={closeModal}
-                        show={show[index]} key={Math.random()}/>
+                      right={shiftRight} left={shiftLeft}
+                      showModal={showModal} close={closeModal}
+                      show={show[index]} itemType={props.itemType}
+                      key={Math.random()}/>
             ))}
         </section>
     )
@@ -120,12 +123,14 @@ function TopItemsOptions(props) {
 export default function TopItems(props) {
     return (
         <section className="top-items-container">
-            <h1>Your Top Items from...</h1>
+            <h1>Your Top {props.itemType} from...</h1>
             <TopItemsOptions setTimeRange={props.setTimeRange}
                              timeRange={props.timeRange}
                              display={props.display}
                              setDisplay={props.handleDisplay}/>
-            <TopItemsDisplay topItems={props.topItems} display={props.display}/>
+            <TopItemsDisplay topItems={props.topItems}
+                             display={props.display}
+                             itemType={props.itemType}/>
         </section>
     )
 }

@@ -79,9 +79,9 @@ export function SongModal(props) {
             <div className="modal-left d-flex-cc" onClick={e => {e.stopPropagation(); handleNav("left");}}><img src={arrowLeft} alt=""/></div>
             <div className={(props.clicked) ? "song-modal-main main-clicked" : "song-modal-main"} onAnimationEnd={props.functionAnimationEnd} onClick={e => e.stopPropagation()}>
                 <div className="song-modal-content" index={props.index}>
-                    <div className="song-modal-img">
-                        <a href={props.track.uri}><img src={props.track.image} alt="" /></a>
-                    </div>
+                    <a href={props.track.uri}>
+                        <div className="song-modal-img"><img src={props.track.image} alt="" /></div>
+                    </a>
                     <SongModalInfo track={props.track}/>
                 </div>
                 <button onClick={props.close} className="modal-close-btn">Close</button>
