@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {SongModal} from "./Modal"
+import {ArtistModal, SongModal} from "./Modal"
 import ToggleSwitch from "./ToggleSwitch";
 
 import gridView from "../media/grid_view_FILL0_wght300_GRAD0_opsz48.png";
@@ -32,14 +32,23 @@ function Item(props) {
                  onClick={handleShow}>
                 <img className={(props.itemType === "Songs") ? "song-img" : "artist-img"}
                      src={props.item.image} alt=""/>
-                {(props.itemType === "Songs") ? (<h3>{props.item.name}</h3>) : null}
+                {(props.itemType === "Songs" || props.display) ? (<h3>{props.item.name}</h3>) : null}
             </div>
-            <SongModal track={props.item} index={props.index + 1}
-                       right={props.right} left={props.left}
-                       show={props.show} close={props.close}
-                       clicked={clicked} functionAnimationEnd={handleAnimationEnd}
-                       onAnimationEnd={handleAnimationEnd}
-                       className={(clicked) ? "item-clicked" : ""}/>
+            {(props.itemType === "Songs") ? (
+                <SongModal track={props.item} index={props.index + 1}
+                           right={props.right} left={props.left}
+                           show={props.show} close={props.close}
+                           clicked={clicked} functionAnimationEnd={handleAnimationEnd}
+                           onAnimationEnd={handleAnimationEnd}
+                           className={(clicked) ? "item-clicked" : ""}/>
+                ) : (
+                <ArtistModal artist={props.item} index={props.index + 1}
+                             right={props.right} left={props.left}
+                             show={props.show} close={props.close}
+                             clicked={clicked} functionAnimationEnd={handleAnimationEnd}
+                             onAnimationEnd={handleAnimationEnd}
+                             className={(clicked) ? "item-clicked" : ""}/>
+            )}
         </section>
     )
 }
@@ -83,7 +92,7 @@ function TopItemsDisplay(props) {
                       right={shiftRight} left={shiftLeft}
                       showModal={showModal} close={closeModal}
                       show={show[index]} itemType={props.itemType}
-                      key={Math.random()}/>
+                      key={Math.random()} display={props.display}/>
             ))}
         </section>
     )

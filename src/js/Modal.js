@@ -90,3 +90,28 @@ export function SongModal(props) {
         </div>
     )
 }
+
+export function ArtistModal(props) {
+    if (!props.show) return
+
+    function handleNav(dir) {
+        if (dir === "left")
+            props.left()
+        else if (dir === "right")
+            props.right()
+    }
+    return (
+        <div id={props.artist.name} className="song-modal d-flex-cc" onClick={props.close}>
+            <div className="modal-left d-flex-cc" onClick={e => {e.stopPropagation(); handleNav("left");}}><img src={arrowLeft} alt=""/></div>
+            <div className={(props.clicked) ? "song-modal-main main-clicked" : "song-modal-main"} onAnimationEnd={props.functionAnimationEnd} onClick={e => e.stopPropagation()}>
+                <div className="song-modal-content" index={props.index}>
+                    <a href={props.artist.uri}>
+                        <div className="song-modal-img"><img src={props.artist.image} alt="" /></div>
+                    </a>
+                </div>
+                <button onClick={props.close} className="modal-close-btn">Close</button>
+            </div>
+            <div className="modal-right d-flex-cc" onClick={e => {e.stopPropagation(); handleNav("right")}}><img src={arrowRight} alt=""/></div>
+        </div>
+    )
+}

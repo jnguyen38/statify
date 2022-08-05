@@ -110,7 +110,7 @@ export default function Home() {
         }
     }, [topArtistsLocal, cookies.accessToken])
     useEffect(() => {
-        setTopArtists(topArtistsLocal[topArtistsTimeRange])  
+        setTopArtists(topArtistsLocal[topArtistsTimeRange])
     }, [topArtistsLocal, topArtistsTimeRange])
     useEffect(() => {
         if (!cookies.accessToken) return
