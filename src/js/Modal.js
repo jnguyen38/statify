@@ -77,7 +77,7 @@ export function SongModal(props) {
 
     return (
         <div id={props.track.name} className="modal d-flex-cc" onClick={props.close}>
-            <div className="modal-left d-flex-cc" onClick={e => {e.stopPropagation(); handleNav("left");}}><img src={arrowLeft} alt=""/></div>
+            <div className="modal-left d-flex-cc no-select" onClick={e => {e.stopPropagation(); handleNav("left");}}><img src={arrowLeft} alt=""/></div>
             <div className={(props.clicked) ? "song-modal-main modal-main main-clicked" : "song-modal-main modal-main"} onAnimationEnd={props.functionAnimationEnd} onClick={e => e.stopPropagation()}>
                 <div className="modal-content" index={props.index} style={{overflow: "hidden"}}>
                     <section className="modal-stats">
@@ -89,7 +89,7 @@ export function SongModal(props) {
                 </div>
                 <button onClick={props.close} className="modal-close-btn">Close</button>
             </div>
-            <div className="modal-right d-flex-cc" onClick={e => {e.stopPropagation(); handleNav("right")}}><img src={arrowRight} alt=""/></div>
+            <div className="modal-right d-flex-cc no-select" onClick={e => {e.stopPropagation(); handleNav("right")}}><img src={arrowRight} alt=""/></div>
         </div>
     )
 }
@@ -172,7 +172,7 @@ export function ArtistModal(props) {
     }
     return (
         <div id={props.artist.name} className="modal d-flex-cc" onClick={props.close}>
-            <div className="modal-left d-flex-cc" onClick={e => {e.stopPropagation(); handleNav("left");}}><img src={arrowLeft} alt=""/></div>
+            <div className="modal-left d-flex-cc no-select" onClick={e => {e.stopPropagation(); handleNav("left");}}><img src={arrowLeft} alt=""/></div>
             <div className={(props.clicked) ? "artist-modal-main modal-main main-clicked" : "artist-modal-main modal-main"} onAnimationEnd={props.functionAnimationEnd} onClick={e => e.stopPropagation()}>
                 <div className="modal-content" index={props.index}>
                     <section className="modal-stats">
@@ -186,7 +186,7 @@ export function ArtistModal(props) {
                 </div>
                 <button onClick={props.close} className="modal-close-btn">Close</button>
             </div>
-            <div className="modal-right d-flex-cc" onClick={e => {e.stopPropagation(); handleNav("right")}}><img src={arrowRight} alt=""/></div>
+            <div className="modal-right d-flex-cc no-select" onClick={e => {e.stopPropagation(); handleNav("right")}}><img src={arrowRight} alt=""/></div>
         </div>
     )
 }

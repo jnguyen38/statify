@@ -86,7 +86,7 @@ function TopItemsDisplay(props) {
     }, [show])
 
     return (
-        <section className={(props.display) ? "top-items-display list-view" : "top-items-display grid-view"}>
+        <section className={(props.display) ? "top-items-display list-view no-select" : "top-items-display grid-view no-select"}>
             {props.topItems.map((item, index) => (
                 <Item item={item} index={index}
                       right={shiftRight} left={shiftLeft}

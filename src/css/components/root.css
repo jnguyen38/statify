@@ -31,6 +31,13 @@
     --pseudo-transitions: none !important;
 }
 
+.no-select {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 @media only screen and (max-width: 992px) {
     body{--body-before-content: "Sorry, we haven't designed a layout for your device yet. Updates coming soon, though!";}
 }
