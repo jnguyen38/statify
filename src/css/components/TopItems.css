@@ -187,6 +187,7 @@
     font-weight: 200;
     font-family: "Outfit", sans-serif;
     cursor: pointer;
+    --pseudo-transitions: content var(--item-trans-time), opacity var(--item-trans-time), width var(--item-trans-time);;
     transition: background-color var(--item-trans-time), color var(--item-trans-time);
 }
 
@@ -199,6 +200,7 @@
     --artist-pseudo-width: var(--artist-pseudo-static-width);
     --artist-pseudo-height: var(--artist-pseudo-static-height);
     --artist-img-margin: var(--artist-img-static-margin);
+    --pseudo-transitions: content var(--item-trans-time), opacity var(--item-trans-time), height var(--item-trans-time), width var(--item-trans-time), font-weight var(--item-trans-time);
     height: var(--artist-height);
     box-shadow: var(--item-box-shadow);
     background-color: var(--light-grey-background);
@@ -211,7 +213,7 @@
     font-weight: 200;
     font-family: "Outfit", sans-serif;
     cursor: pointer;
-    transition: background-color var(--item-trans-time), color var(--item-trans-time);
+    transition: background-color var(--item-trans-time), color var(--item-trans-time) content var(--item-trans-time);
 }
 
 .song:hover {
@@ -282,7 +284,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: content var(--item-trans-time), opacity var(--item-trans-time), width var(--item-trans-time);
+    transition: var(--pseudo-transitions);
 }
 
 .artist::before {
@@ -302,5 +304,5 @@
     text-align: center;
     line-height: 24px;
     padding: 0 var(--artist-pseudo-padding);
-    transition: content var(--item-trans-time), opacity var(--item-trans-time), height var(--item-trans-time), width var(--item-trans-time), font-weight var(--item-trans-time);
+    transition: var(--pseudo-transitions);
 }

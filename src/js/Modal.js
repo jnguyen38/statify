@@ -44,7 +44,7 @@ function SongModalInfo(props) {
     }, [acous, dance, energy, loud, pop, root.style])
 
     return (
-        <div className="song-modal-info" >
+        <div className="modal-info" >
             <h3>{props.track.name}</h3>
             <div className="info-line"><p>{props.track.artist}</p></div>
             <div className='br'/>
@@ -75,12 +75,12 @@ export function SongModal(props) {
     }
 
     return (
-        <div id={props.track.name} className="song-modal d-flex-cc" onClick={props.close}>
+        <div id={props.track.name} className="modal d-flex-cc" onClick={props.close}>
             <div className="modal-left d-flex-cc" onClick={e => {e.stopPropagation(); handleNav("left");}}><img src={arrowLeft} alt=""/></div>
-            <div className={(props.clicked) ? "song-modal-main main-clicked" : "song-modal-main"} onAnimationEnd={props.functionAnimationEnd} onClick={e => e.stopPropagation()}>
-                <div className="song-modal-content" index={props.index}>
+            <div className={(props.clicked) ? "song-modal-main modal-main main-clicked" : "song-modal-main modal-main"} onAnimationEnd={props.functionAnimationEnd} onClick={e => e.stopPropagation()}>
+                <div className="modal-content" index={props.index}>
                     <a href={props.track.uri}>
-                        <div className="song-modal-img"><img src={props.track.image} alt="" /></div>
+                        <div className="modal-img"><img src={props.track.image} alt="" /></div>
                     </a>
                     <SongModalInfo track={props.track}/>
                 </div>
@@ -90,6 +90,67 @@ export function SongModal(props) {
         </div>
     )
 }
+
+function ArtistModalInfo(props) {
+    const root = document.querySelector(":root")
+    const pop = props.artist.popularity
+
+    useEffect(() => {
+        root.style.setProperty('--popularity-width', pop.toString() + '%')
+    }, [pop, root.style])
+
+    function numberWithCommas(num) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+
+    function findLikedSongs() {
+        let likedSongs = props.tracks[props.artist.name]
+        return (likedSongs) ? likedSongs.join(" \u2022 ") : "None"
+    }
+
+    return (
+        <div className="modal-info">
+            <h3>{props.artist.name}</h3>
+            <div className="br"/>
+            <div className="info-line"><h4>Followers: </h4><p>{numberWithCommas(props.artist.followers)}</p></div>
+            <div className="info-line"><h4 style={{alignSelf: "flex-start"}}>Genre: </h4><p style={{textAlign: "left"}}>{props.artist.genres.join(", ")}</p></div>
+            <div className="br"/>
+            <div className="info-line"><h4>Albums: </h4><p>{props.artist.albums.length}</p></div>
+            <div className="info-line"><h4>Singles: </h4><p>{props.artist.singles.length}</p></div>
+            <div className="info-line"><h4>Popularity: </h4><p>{props.artist.popularity}</p><h5>{props.artist.popularity}</h5><div id="popularity-bar" className="stat-bar"></div></div>
+            <div className="br"/>
+            <div className="info-line"><h4 style={{alignSelf: "flex-start", textAlign: "left", minWidth: "100px"}}>Your Top Songs:</h4><p style={{textAlign: "left"}}>{findLikedSongs()}</p></div>
+        </div>
+    )
+}
+
+function ArtistDiscography(props) {
+    console.log(props.artist)
+
+    function DiscoItem(props) {
+        return (
+            <div>
+                <div className="info-line"><img src={props.item.image} alt=""/><h4>{props.item.name}</h4></div>
+            </div>
+        )
+    }
+
+    return (
+        <div className="modal-discography">
+
+            <h3>Albums</h3>
+            {props.artist.albums.map(album => (
+                <DiscoItem item={album} key={album.id}/>
+            ))}
+            <h3>Singles</h3>
+            {props.artist.singles.map(single => (
+                <DiscoItem item={single} key={single.id}/>
+            ))}
+        </div>
+    )
+}
+
+ArtistDiscography.propTypes = {};
 
 export function ArtistModal(props) {
     if (!props.show) return
@@ -101,13 +162,18 @@ export function ArtistModal(props) {
             props.right()
     }
     return (
-        <div id={props.artist.name} className="song-modal d-flex-cc" onClick={props.close}>
+        <div id={props.artist.name} className="modal d-flex-cc" onClick={props.close}>
             <div className="modal-left d-flex-cc" onClick={e => {e.stopPropagation(); handleNav("left");}}><img src={arrowLeft} alt=""/></div>
-            <div className={(props.clicked) ? "song-modal-main main-clicked" : "song-modal-main"} onAnimationEnd={props.functionAnimationEnd} onClick={e => e.stopPropagation()}>
-                <div className="song-modal-content" index={props.index}>
-                    <a href={props.artist.uri}>
-                        <div className="song-modal-img"><img src={props.artist.image} alt="" /></div>
-                    </a>
+            <div className={(props.clicked) ? "artist-modal-main modal-main main-clicked" : "artist-modal-main modal-main"} onAnimationEnd={props.functionAnimationEnd} onClick={e => e.stopPropagation()}>
+                <div className="modal-content" index={props.index}>
+                    <section className="modal-stats">
+                        <a href={props.artist.uri}>
+                            <div className="modal-img"><img src={props.artist.image} alt="" /></div>
+                        </a>
+                        <ArtistModalInfo artist={props.artist} tracks={props.tracks}/>
+                        <div style={{width: "20px"}}/>
+                    </section>
+                    <ArtistDiscography artist={props.artist}/>
                 </div>
                 <button onClick={props.close} className="modal-close-btn">Close</button>
             </div>

@@ -29,6 +29,7 @@ export default function Home() {
     const [topArtistsDisplay, setTopArtistsDisplay] = useState(false)
 
     const [cookies] = useCookies()
+    const [tracks, setTracks] = useState({})
 
     function handleTopSongsDisplay(setting) {
         setTopSongsDisplay(setting)
@@ -80,17 +81,23 @@ export default function Home() {
                         console.log(err)
                     })
                     spotifyApi.getArtistAlbums(artist.id, {limit: 50}).then(data => {
+                        let seen = {}
                         const discography = data.body.items.map(item => {
                             const largestImg = largestImgOf(item.images)
-                            return ({
-                                type: item.album_group,
-                                id: item.id,
-                                uri: item.uri,
-                                totalTracks: item.total_tracks,
-                                release: item.release_date,
-                                name: item.name,
-                                image: largestImg.url
-                            })
+                            if (!seen[item.name]) {
+                                seen[item.name] = 1
+
+                                return ({
+                                    type: item.album_group,
+                                    id: item.id,
+                                    uri: item.uri,
+                                    totalTracks: item.total_tracks,
+                                    release: item.release_date,
+                                    name: item.name,
+                                    image: largestImg.url
+                                })
+                            } else return {}
+
                         })
                         const releases = {
                             albums: discography.filter(item => {return (item.type === "album")}),
@@ -139,6 +146,15 @@ export default function Home() {
                     console.log(err)
                 })
             }).then(data => {
+                let tempTracks = tracks
+                data.map(track => {
+                    let query = (tempTracks[track.artist]) ? tempTracks[track.artist] : []
+                    if (!query.includes(track.name)) query.push(track.name)
+                    tempTracks[track.artist] = query
+                    return null
+                })
+                setTracks(tempTracks)
+
                 let tempLocal = topSongsLocal
                 tempLocal[range] = data
                 setTopSongsLocal(tempLocal)
@@ -147,11 +163,11 @@ export default function Home() {
                 console.log(err);
             });
         }
-    }, [topSongsLocal, cookies.accessToken])
+    }, [topSongsLocal, cookies.accessToken, tracks])
     useEffect(() => {
         setTopTracks(topSongsLocal[topSongsTimeRange])
     }, [topSongsLocal, topSongsTimeRange])
-    
+
     return (
         <div className="Home ">
             <main className="Home-header">
@@ -168,6 +184,7 @@ export default function Home() {
                                                                               timeRange={topArtistsTimeRange}
                                                                               itemType="Artists"
                                                                               topItems={topArtists}
+                                                                              tracks={tracks}
                                                                               handleDisplay={handleTopArtistsDisplay}
                                                                               display={topArtistsDisplay}/>}/>
                 </Routes>

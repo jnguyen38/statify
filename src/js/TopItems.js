@@ -27,7 +27,7 @@ function Item(props) {
         <section>
             <div index={props.index + 1}
                  title={(props.index + 1).toString() + " / " + props.item.name}
-                 className= {(props.itemType === "Songs") ? "song" : "artist"}
+                 className={(props.itemType === "Songs") ? "song" : "artist"}
                  onMouseOver={handleDisplay}
                  onClick={handleShow}>
                 <img className={(props.itemType === "Songs") ? "song-img" : "artist-img"}
@@ -46,7 +46,7 @@ function Item(props) {
                              right={props.right} left={props.left}
                              show={props.show} close={props.close}
                              clicked={clicked} functionAnimationEnd={handleAnimationEnd}
-                             onAnimationEnd={handleAnimationEnd}
+                             onAnimationEnd={handleAnimationEnd} tracks={props.tracks}
                              className={(clicked) ? "item-clicked" : ""}/>
             )}
         </section>
@@ -92,7 +92,8 @@ function TopItemsDisplay(props) {
                       right={shiftRight} left={shiftLeft}
                       showModal={showModal} close={closeModal}
                       show={show[index]} itemType={props.itemType}
-                      key={Math.random()} display={props.display}/>
+                      tracks={props.tracks}
+                      key={item.id} display={props.display}/>
             ))}
         </section>
     )
@@ -139,6 +140,7 @@ export default function TopItems(props) {
                              setDisplay={props.handleDisplay}/>
             <TopItemsDisplay topItems={props.topItems}
                              display={props.display}
+                             tracks={props.tracks}
                              itemType={props.itemType}/>
         </section>
     )
