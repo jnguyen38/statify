@@ -1,6 +1,7 @@
 import React, {useEffect} from "react";
 import arrowRight from "../media/arrow_forward_ios_FILL0_wght400_GRAD0_opsz48.png"
 import arrowLeft from "../media/arrow_back_ios_new_FILL0_wght400_GRAD0_opsz48.png"
+import {Item} from "./TopItems";
 
 function convertDate(numericDate) {
     const dateArray = numericDate.split("-")
@@ -78,11 +79,13 @@ export function SongModal(props) {
         <div id={props.track.name} className="modal d-flex-cc" onClick={props.close}>
             <div className="modal-left d-flex-cc" onClick={e => {e.stopPropagation(); handleNav("left");}}><img src={arrowLeft} alt=""/></div>
             <div className={(props.clicked) ? "song-modal-main modal-main main-clicked" : "song-modal-main modal-main"} onAnimationEnd={props.functionAnimationEnd} onClick={e => e.stopPropagation()}>
-                <div className="modal-content" index={props.index}>
-                    <a href={props.track.uri}>
-                        <div className="modal-img"><img src={props.track.image} alt="" /></div>
-                    </a>
-                    <SongModalInfo track={props.track}/>
+                <div className="modal-content" index={props.index} style={{overflow: "hidden"}}>
+                    <section className="modal-stats">
+                        <a href={props.track.uri}>
+                            <div className="modal-img"><img src={props.track.image} alt="" /></div>
+                        </a>
+                        <SongModalInfo track={props.track}/>
+                    </section>
                 </div>
                 <button onClick={props.close} className="modal-close-btn">Close</button>
             </div>
@@ -115,42 +118,48 @@ function ArtistModalInfo(props) {
             <div className="info-line"><h4>Followers: </h4><p>{numberWithCommas(props.artist.followers)}</p></div>
             <div className="info-line"><h4 style={{alignSelf: "flex-start"}}>Genre: </h4><p style={{textAlign: "left"}}>{props.artist.genres.join(", ")}</p></div>
             <div className="br"/>
+            <div className="info-line"><h4 style={{alignSelf: "flex-start", textAlign: "left", minWidth: "100px"}}>Your Top Songs:</h4><p style={{textAlign: "left"}}>{findLikedSongs()}</p></div>
+            <div className="br"/>
             <div className="info-line"><h4>Albums: </h4><p>{props.artist.albums.length}</p></div>
             <div className="info-line"><h4>Singles: </h4><p>{props.artist.singles.length}</p></div>
             <div className="info-line"><h4>Popularity: </h4><p>{props.artist.popularity}</p><h5>{props.artist.popularity}</h5><div id="popularity-bar" className="stat-bar"></div></div>
-            <div className="br"/>
-            <div className="info-line"><h4 style={{alignSelf: "flex-start", textAlign: "left", minWidth: "100px"}}>Your Top Songs:</h4><p style={{textAlign: "left"}}>{findLikedSongs()}</p></div>
         </div>
     )
 }
 
 function ArtistDiscography(props) {
-    console.log(props.artist)
-
-    function DiscoItem(props) {
-        return (
-            <div>
-                <div className="info-line"><img src={props.item.image} alt=""/><h4>{props.item.name}</h4></div>
-            </div>
-        )
-    }
-
     return (
         <div className="modal-discography">
-
-            <h3>Albums</h3>
-            {props.artist.albums.map(album => (
-                <DiscoItem item={album} key={album.id}/>
-            ))}
-            <h3>Singles</h3>
-            {props.artist.singles.map(single => (
-                <DiscoItem item={single} key={single.id}/>
-            ))}
+            {!(props.artist.albums.length === 0) ? (
+                <div className="albums-disco list-view top-items-display">
+                    <h3>Albums</h3>
+                    {props.artist.albums.map((album, index) => (
+                        <Item item={album} index={index}
+                              right={null} left={null}
+                              showModal={null} close={null}
+                              show={false} itemType="Songs"
+                              tracks={props.tracks}
+                              key={album.id} display={true}/>
+                    ))}
+                    <div className="br"/>
+                </div>
+            ) : null}
+            {!(props.artist.singles.length === 0) ? (
+                <div className="singles-disco list-view top-items-display">
+                    <h3>Singles and EPs</h3>
+                    {props.artist.singles.map((single, index) => (
+                        <Item item={single} index={index}
+                              right={null} left={null}
+                              showModal={null} close={null}
+                              show={false} itemType="Songs"
+                              tracks={props.tracks}
+                              key={single.id} display={true}/>
+                    ))}
+                </div>
+            ) : null}
         </div>
     )
 }
-
-ArtistDiscography.propTypes = {};
 
 export function ArtistModal(props) {
     if (!props.show) return

@@ -24,9 +24,6 @@ export default function SiteHeader() {
             </Link>
             <nav>
                 <div className="nav-box d-flex-cc">
-                    <Link to={'/Info'}><h2 className="nav-link">About</h2></Link>
-                </div>
-                <div className="nav-box d-flex-cc">
                     <Link to={homeRedirect}><h2 className="nav-link">Home</h2></Link>
                 </div>
                 <div className="nav-box d-flex-cc">

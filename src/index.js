@@ -6,7 +6,6 @@ import { CookiesProvider } from "react-cookie";
 import reportWebVitals from './js/reportWebVitals';
 import SiteHeader from './js/Header';
 import Home from "./js/Home";
-import Info from "./js/Info";
 import './css/Index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -17,7 +16,6 @@ root.render(
                 <SiteHeader/>
                 <Routes>
                     <Route path="/*" element={<Home/>}/>
-                    <Route path="/info" element={<Info/>}/>
                 </Routes>
             </React.StrictMode>
         </BrowserRouter>

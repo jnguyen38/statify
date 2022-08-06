@@ -187,6 +187,7 @@
     font-weight: 200;
     font-family: "Outfit", sans-serif;
     cursor: pointer;
+    margin: 2px 0;
     --pseudo-transitions: content var(--item-trans-time), opacity var(--item-trans-time), width var(--item-trans-time);;
     transition: background-color var(--item-trans-time), color var(--item-trans-time);
 }

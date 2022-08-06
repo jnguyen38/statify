@@ -5,7 +5,7 @@ import ToggleSwitch from "./ToggleSwitch";
 import gridView from "../media/grid_view_FILL0_wght300_GRAD0_opsz48.png";
 import listView from "../media/view_list_FILL0_wght300_GRAD0_opsz48.png";
 
-function Item(props) {
+export function Item(props) {
     const [clicked, setClicked] = useState(false)
 
     function handleShow() {
