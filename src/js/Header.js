@@ -7,7 +7,11 @@ import {useCookies} from "react-cookie";
 export default function SiteHeader() {
     // eslint-disable-next-line no-unused-vars
     const [cookies, setCookie, removeCookie] = useCookies()
-    let redirect = (cookies.accessToken) ? "/dashboard" : "/";
+    const homeRedirect = (cookies.accessToken) ? "/dashboard" : "/";
+    const songRedirect = (cookies.accessToken) ? "/dashboard/top-songs" : "/";
+    const artistRedirect = (cookies.accessToken) ? "/dashboard/top-artists" : "/";
+    const genreRedirect = (cookies.accessToken) ? "/dashboard/top-genres" : "/";
+
 
     function logout() {
         removeCookie("accessToken", {path: '/'})
@@ -21,16 +25,16 @@ export default function SiteHeader() {
             </Link>
             <nav>
                 <div className="nav-box d-flex-cc">
-                    <Link to={'/Info'}><h2 className="nav-link">About</h2></Link>
+                    <Link to={homeRedirect}><h2 className="nav-link">Home</h2></Link>
                 </div>
                 <div className="nav-box d-flex-cc">
-                    <Link to={redirect}><h2 className="nav-link">Home</h2></Link>
+                    <Link to={songRedirect}><h2 className="nav-link">Songs</h2></Link>
                 </div>
                 <div className="nav-box d-flex-cc">
-                    <Link to={'/'}><h2 className="nav-link">Explore</h2></Link>
+                    <Link to={artistRedirect}><h2 className="nav-link">Artists</h2></Link>
                 </div>
                 <div className="nav-box d-flex-cc">
-                    <Link to={'/'}><h2 className="nav-link">Contact</h2></Link>
+                    <Link to={genreRedirect}><h2 className="nav-link">Genres</h2></Link>
                 </div>
                 <div className="nav-box d-flex-cc" onClick={logout}>
                     <Link to={'/'}><h2 className="nav-link">Logout</h2></Link>

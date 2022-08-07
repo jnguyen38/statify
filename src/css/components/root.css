@@ -28,6 +28,14 @@
     -moz-transition: none !important;
     -o-transition: none !important;
     transition: none !important;
+    --pseudo-transitions: none !important;
+}
+
+.no-select {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 @media only screen and (max-width: 992px) {
@@ -84,13 +92,9 @@ a:link { text-decoration: none; }
 
 .border {border: solid white 1px;}
 
-::-webkit-scrollbar {width: max(5px, min(1vw, 10px));}
+::-webkit-scrollbar {width: 8px;}
 ::-webkit-scrollbar-track {background: inherit;}
-::-webkit-scrollbar-thumb {
-    background: var(--primary-green);
-    width: 5px;
-    border-radius: 5px;
-}
+::-webkit-scrollbar-thumb {background: var(--primary-green);}
 ::-webkit-scrollbar-thumb:hover {background: var(--primary-green-hover);}
 ::-webkit-scrollbar-thumb:active {background: var(--primary-green-active);}
 

@@ -12,11 +12,11 @@
 
 .br {margin-bottom: .8em;}
 
-.song-clicked {
-    animation: modalOpacity .4s;
+.item-clicked {
+    animation: modalOpacity 1s;
 }
 
-.song-modal {
+.modal {
     position: fixed;
     left: 0;
     right: 0;
@@ -26,26 +26,26 @@
     z-index: 10;
 }
 
-.song-modal h3, .song-modal h4, .song-modal p, .song-modal h5 {
+.modal h3, .modal h4, .modal p, .modal h5 {
     margin: 0;
     font-family: "Outfit", sans-serif;
     font-weight: 700;
     pointer-events: none;
 }
 
-.song-modal h3 {
+.modal h3 {
     font-size: 36px;
     line-height: 40px;
     text-align: left;
 }
 
-.song-modal h4 {
+.modal h4 {
     font-size: 18px;
     color: var(--primary-green);
     margin-right: 5px;
 }
 
-.song-modal h5 {
+.modal h5 {
     --modal-h5-before: "";
     font-size: 12px;
     font-weight: 300;
@@ -54,48 +54,58 @@
     margin-right: 10px;
  }
 
-.song-modal p {
+.modal p {
     font-weight: 300;
     font-size: 18px;
 }
 
-.song-modal-main {
+.modal-main {
     display: flex;
     flex-flow: column;
     background-color: white;
     padding: var(--std-space);
+    color: var(--grey-background);
+}
+
+.song-modal-main {
     width: 750px;
     height: 400px;
-    color: var(--grey-background);
+}
+
+.artist-modal-main {
+    width: 750px;
+    height: 550px;
 }
 
 .main-clicked {animation: modalBounce .4s;}
 
-.song-modal-content {display: flex;}
+.modal-stats {display: flex;}
 
-.song-modal-img {
+.modal-content {
+    display: flex;
+    position: relative;
+    flex-flow: column;
+    overflow: scroll;
+}
+
+.modal-content::-webkit-scrollbar {
+    width: 3px;
+}
+
+.modal-img {
+    --modal-img-opactiy: 0;
+    position: relative;
     opacity: 1;
     height: 340px;
     width: 340px;
     border: 2px solid #dddddd;
-    transition: opacity .4s;
 }
 
-.song-modal-img img {height: 100%;}
-
-.song-modal-img:hover {opacity: .8;}
-
-
-.song-modal-info {
-    margin-left: var(--std-space);
-    position: relative;
-    display: flex;
-    flex-flow: column;
-    align-items: flex-start;
-    width: 100%;
+.modal-img:hover {
+    --modal-img-opactiy: .5;
 }
 
-.song-modal-content:before {
+.modal-content:before {
     position: absolute;
     display: flex;
     justify-content: center;
@@ -110,7 +120,40 @@
     font-family: "Outfit", sans-serif;
     font-weight: 700;
     font-size: 40px;
-    z-index: 1000;
+    z-index: 25;
+}
+
+.modal-img:before {
+    position: absolute;
+    content: "Open in Spotify";
+    opacity: var(--modal-img-opactiy);
+    cursor: pointer;
+    background-color: black;
+    color: white;
+    font-family: "Outfit", sans-serif;
+    font-weight: 600;
+    transition: opacity .4s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 340px;
+    height: 340px;
+    z-index: 30;
+}
+
+.modal-img img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.modal-info {
+    margin-left: var(--std-space);
+    position: relative;
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+    width: 100%;
 }
 
 .info-line {
@@ -118,6 +161,20 @@
     align-items: center;
     width: 100%;
 }
+
+.modal-discography {
+    display: flex;
+    flex-flow: column;
+    margin: var(--std-space);
+}
+
+.info-line img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin: 10px;
+}
+
 
 .modal-close-btn {
     cursor: pointer;
@@ -134,7 +191,7 @@
     transition: background-color .4s, color .4s, width .4s;
 }
 
-.modal-close-btn:hover {
+.modal-close-btn:active, .modal-close-btn:hover {
     background-color: #dddddd;
     color: #888;
     width: 100%;
@@ -150,6 +207,7 @@
     font-size: 14px;
     width: 50%;
     height: 20%;
+    margin-right: 10px;
 }
 
 .stat-bar:before {
@@ -167,7 +225,7 @@
 .modal-left, .modal-right {
     background-color: white;
     cursor: pointer;
-    opacity: .2;
+    opacity: .4;
     margin: 0 20px;
     width: 50px;
     height: 100px;

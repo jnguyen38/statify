@@ -1,0 +1,309 @@
+.top-items-container {
+    z-index: 1;
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+}
+
+.top-items-container h1 {
+    font-family: "Outfit", sans-serif;
+    margin: var(--std-space);
+    margin-left: 0;
+}
+
+.top-items-container h2 {
+    margin: 0;
+    font-family: "Outfit", sans-serif;
+    font-size: max(18px, .6em);
+}
+
+.top-items-options {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    margin-bottom: 15px;
+
+}
+
+#short_term, #medium_term, #long_term {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 0 var(--std-space);
+    box-shadow: 5px 5px 5px var(--light-grey-border);
+    transition: height .2s, background-color .2s, margin-top .2s, width .2s, color .2s;
+}
+
+.top-items-range {
+    width: 100px;
+    height: 50px;
+    background-color: var(--light-grey-background);
+    margin-top: 10px;
+    font-weight: 300;
+}
+
+.top-items-range:hover {
+    color: white;
+    font-weight: 700;
+    background-color: var(--grey-background);
+}
+
+.top-items-range-selected {
+    font-weight: 700;
+    width: 120px;
+    color: white;
+    background-color: var(--primary-green);
+    height: 60px;
+    margin-top: 0;
+}
+
+.top-items-range:active, .top-items-range-selected:active {
+    background-color: var(--primary-green-hover);
+}
+
+.top-items-range h2 {
+    font-weight: inherit;
+    transition: font-weight .2s;
+}
+
+.top-items-display-toggle {
+    margin-left: auto;
+    margin-bottom: 10px;
+}
+
+.top-items-display-toggle img {
+    width: 30px;
+}
+
+.top-items-display {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: var(--grid-layout--top-items);
+    grid-gap: var(--item-grid-gap);
+    background-color: white;
+    margin-bottom: var(--std-space);
+    transition: opacity var(--item-trans-time);
+}
+
+
+.grid-view {
+    --song-height: 130px;
+    --song-static-img-dim: 100px;
+    --song-dyn-img-dim: 130px;
+    --song-pseudo-static-width: 10px;
+    --song-pseudo-dyn-width: 60px;
+    --song-pseudo-static-height: 100px;
+    --song-pseudo-dyn-height: 100px;
+    --song-pseudo-font-size: 36px;
+    --song-pseudo-static-content: "";
+    --song-pseudo-static-opacity: 0;
+    --song-img-static-margin: 15px;
+    --song-img-dyn-margin: 0;
+
+    --artist-height: 270px;
+    --artist-static-img-height: 270px;
+    --artist-dyn-img-height: 270px;
+    --artist-static-img-width: 100%;
+    --artist-dyn-img-width: 100%;
+    --artist-pseudo-static-width: 90%;
+    --artist-pseudo-dyn-width: 90%;
+    --artist-pseudo-static-height: 25%;
+    --artist-pseudo-dyn-height: 50%;
+    --artist-pseudo-font-size: 22px;
+    --artist-pseudo-static-content: attr(title);
+    --artist-pseudo-static-opacity: .5;
+    --artist-pseudo-padding: 5%;
+    --artist-flex-flow: "column";
+    --artist-absolute-positioning: 0;
+    --artist-pseudo-background-color: black;
+    --artist-pseudo-color: white;
+    --artist-img-static-margin: 0;
+    --artist-img-dyn-margin: 0;
+
+
+    --grid-layout--top-items: repeat(auto-fit, minmax(250px, 1fr));
+    --item-grid-gap: 15px;
+    --item-box-shadow: 5px 5px 5px var(--light-grey-border);
+
+}
+
+.list-view {
+    --song-height: 60px;
+    --song-static-img-dim: 45px;
+    --song-dyn-img-dim: 50px;
+    --song-pseudo-static-width: 40px;
+    --song-pseudo-dyn-width: 50px;
+    --song-pseudo-static-height: 50px;
+    --song-pseudo-dyn-height: 50px;
+    --song-pseudo-font-size: 20px;
+    --song-pseudo-static-content: attr(index);
+    --song-pseudo-static-opacity: .8;
+    --song-img-static-margin: 50px;
+    --song-img-dyn-margin: 60px;
+
+    --artist-height: 60px;
+    --artist-static-img-height: 45px;
+    --artist-dyn-img-height: 50px;
+    --artist-static-img-width: 45px;
+    --artist-dyn-img-width: 50px;
+    --artist-pseudo-static-width: 40px;
+    --artist-pseudo-dyn-width: 50px;
+    --artist-pseudo-static-height: 50px;
+    --artist-pseudo-dyn-height: 50px;
+    --artist-pseudo-font-size: 20px;
+    --artist-pseudo-static-content: attr(index);
+    --artist-pseudo-static-opacity: .8;
+    --artist-pseudo-padding: 0;
+    --artist-flex-flow: "row";
+    --artist-absolute-positioning: auto;
+    --artist-pseudo-background-color: var(--light-grey-background);
+    --artist-pseudo-color: black;
+    --artist-img-static-margin: 10px 10px 10px 50px;
+    --artist-img-dyn-margin: 10px 10px 10px 60px;
+
+    --grid-layout--top-items: 1fr;
+    --item-grid-gap: 5px;
+    --item-box-shadow: 2px 2px 2px var(--light-grey-border);
+}
+
+
+.song {
+    --item-img-dim: var(--song-static-img-dim);
+    --item-trans-time: .2s;
+    --item-pseudo-content: var(--song-pseudo-static-content);
+    --item-pseudo-opactiy: var(--song-pseudo-static-opacity);
+    --item-img-margin: var(--song-img-static-margin);
+    --song-pseudo-width: var(--song-pseudo-static-width);
+    --song-pseudo-height: var(--song-pseudo-static-height);
+    box-shadow: var(--item-box-shadow);
+    background-color: var(--light-grey-background);
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: left;
+    height: var(--song-height);
+    font-weight: 200;
+    font-family: "Outfit", sans-serif;
+    cursor: pointer;
+    margin: 2px 0;
+    --pseudo-transitions: content var(--item-trans-time), opacity var(--item-trans-time), width var(--item-trans-time);;
+    transition: background-color var(--item-trans-time), color var(--item-trans-time);
+}
+
+.artist {
+    --item-trans-time: .2s;
+    --item-pseudo-content: var(--artist-pseudo-static-content);
+    --item-pseudo-opactiy: var(--artist-pseudo-static-opacity);
+    --item-img-width: var(--artist-static-img-width);
+    --item-img-height: var(--artist-static-img-height);
+    --artist-pseudo-width: var(--artist-pseudo-static-width);
+    --artist-pseudo-height: var(--artist-pseudo-static-height);
+    --artist-img-margin: var(--artist-img-static-margin);
+    --pseudo-transitions: content var(--item-trans-time), opacity var(--item-trans-time), height var(--item-trans-time), width var(--item-trans-time), font-weight var(--item-trans-time);
+    height: var(--artist-height);
+    box-shadow: var(--item-box-shadow);
+    background-color: var(--light-grey-background);
+    position: relative;
+    display: flex;
+    flex-flow: var(--artist-flex-flow);
+    justify-content: flex-start;
+    align-items: center;
+    text-align: left;
+    font-weight: 200;
+    font-family: "Outfit", sans-serif;
+    cursor: pointer;
+    transition: background-color var(--item-trans-time), color var(--item-trans-time) content var(--item-trans-time);
+}
+
+.song:hover {
+    --item-img-dim: var(--song-dyn-img-dim);
+    --song-pseudo-width: var(--song-pseudo-dyn-width);
+    --song-pseudo-height: var(--song-pseudo-dyn-height);
+    --item-pseudo-content: attr(index);
+    --item-pseudo-opactiy: 80%;
+    --item-img-margin: var(--song-img-dyn-margin);
+    font-weight: 700;
+    color: white;
+    background-color: var(--grey-background);
+}
+
+.artist:hover {
+    --item-img-width: var(--artist-static-img-width);
+    --item-img-height: var(--artist-static-img-height);
+    --artist-pseudo-width: var(--artist-pseudo-dyn-width);
+    --artist-pseudo-height: var(--artist-pseudo-dyn-height);
+    --artist-img-margin: var(--artist-img-dyn-margin);
+    --item-pseudo-content: var(--artist-pseudo-static-content);
+    --item-pseudo-opactiy: 70%;
+    font-weight: 700;
+    color: white;
+    background-color: var(--grey-background);
+}
+
+.song-img {
+    width: var(--item-img-dim);
+    height: var(--item-img-dim);
+    margin: 10px 10px 10px var(--item-img-margin);
+    transition: width var(--item-trans-time), height var(--item-trans-time), margin var(--item-trans-time);
+}
+
+.artist-img {
+    width: var(--item-img-width);
+    height: var(--item-img-height);
+    margin: var(--artist-img-margin);
+    object-fit: cover;
+    transition: width var(--item-trans-time), height var(--item-trans-time), margin var(--item-trans-time);
+}
+
+.song h3 {
+    margin: 0 10px 0 0;
+    font-family: "Outfit", sans-serif;
+    font-weight: inherit;
+    font-size: 18px;
+    transition: font-weight var(--item-trans-time);
+}
+
+.artist h3 {
+    margin: 0 10px 0 0;
+    font-family: "Outfit", sans-serif;
+    font-weight: inherit;
+    font-size: 18px;
+    transition: font-weight var(--item-trans-time);
+}
+
+.song::before {
+    content: var(--item-pseudo-content);
+    opacity: var(--item-pseudo-opactiy);
+    position: absolute;
+    width: var(--song-pseudo-width);
+    height: var(--song-pseudo-height);
+    background-color: var(--light-grey-background);
+    font-size: var(--song-pseudo-font-size);
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: var(--pseudo-transitions);
+}
+
+.artist::before {
+    content: var(--item-pseudo-content);
+    opacity: var(--item-pseudo-opactiy);
+    position: absolute;
+    bottom: var(--artist-absolute-positioning);
+    left: var(--artist-absolute-positioning);
+    width: var(--artist-pseudo-width);
+    height: var(--artist-pseudo-height);
+    background-color: var(--artist-pseudo-background-color);
+    font-size: var(--artist-pseudo-font-size);
+    color: var(--artist-pseudo-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    line-height: 24px;
+    padding: 0 var(--artist-pseudo-padding);
+    transition: var(--pseudo-transitions);
+}
