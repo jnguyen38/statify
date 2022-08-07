@@ -121,11 +121,23 @@ function TopItemsOptions(props) {
                  onClick={() => {setTimeRange("long_term")}}>
                 <h2> All Time </h2>
             </div>
-            <div className="top-items-display-toggle d-flex-cc" >
-                <img src={gridView} alt=""/>
-                <ToggleSwitch setDisplay={props.setDisplay} display={props.display}/>
-                <img src={listView} alt=""/>
-            </div>
+            {(props.setDisplay) ? (
+                <div className="top-items-display-toggle d-flex-cc" >
+                    <img src={gridView} alt=""/>
+                    <ToggleSwitch setDisplay={props.setDisplay} display={props.display}/>
+                    <img src={listView} alt=""/>
+                </div>
+            ) : null}
+        </section>
+    )
+}
+
+export function TopGenres(props) {
+    return (
+        <section className="top-items-container">
+            <h1>Your Top Genres from...</h1>
+            <TopItemsOptions setTimeRange={props.setTimeRange}
+                             timeRange={props.timeRange}/>
         </section>
     )
 }

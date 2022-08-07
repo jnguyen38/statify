@@ -108,7 +108,7 @@ function ArtistModalInfo(props) {
 
     function findLikedSongs() {
         let likedSongs = props.tracks[props.artist.name]
-        return (likedSongs) ? likedSongs.join(" \u2022 ") : "None"
+        return (likedSongs) ? likedSongs.join(" \u2022 ") : "none"
     }
 
     return (
@@ -118,8 +118,12 @@ function ArtistModalInfo(props) {
             <div className="info-line"><h4>Followers: </h4><p>{numberWithCommas(props.artist.followers)}</p></div>
             <div className="info-line"><h4 style={{alignSelf: "flex-start"}}>Genre: </h4><p style={{textAlign: "left"}}>{props.artist.genres.join(", ")}</p></div>
             <div className="br"/>
-            <div className="info-line"><h4 style={{alignSelf: "flex-start", textAlign: "left", minWidth: "100px"}}>Your Top Songs:</h4><p style={{textAlign: "left"}}>{findLikedSongs()}</p></div>
-            <div className="br"/>
+            {!(findLikedSongs() === "none") ? (
+                <section>
+                    <div className="info-line"><h4 style={{alignSelf: "flex-start", textAlign: "left", minWidth: "100px"}}>Your Favorites:</h4><p style={{textAlign: "left"}}>{findLikedSongs()}</p></div>
+                    <div className="br"/>
+                </section>
+                ) : null}
             <div className="info-line"><h4>Albums: </h4><p>{props.artist.albums.length}</p></div>
             <div className="info-line"><h4>Singles: </h4><p>{props.artist.singles.length}</p></div>
             <div className="info-line"><h4>Popularity: </h4><p>{props.artist.popularity}</p><h5>{props.artist.popularity}</h5><div id="popularity-bar" className="stat-bar"></div></div>
