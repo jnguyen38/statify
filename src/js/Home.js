@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {Route, Routes} from "react-router-dom"
+import {useCookies} from "react-cookie";
 
 import Login from "./Login";
 import Dashboard from "./Dashboard";
 import SpotifyWebApi from "spotify-web-api-node";
-import {useCookies} from "react-cookie";
 import TopItems from "./TopItems";
+import TopGenres from "./TopGenres";
 
 const redirect_uri = ['http://localhost:3000/dashboard'],
     client_id = ['5c42b63580e74a5d98548a11638db40f'],
@@ -27,6 +28,10 @@ export default function Home() {
     const [topArtists, setTopArtists] = useState([])
     const [topArtistsTimeRange, setTopArtistsTimeRange] = useState("short_term")
     const [topArtistsDisplay, setTopArtistsDisplay] = useState(false)
+
+    const [topGenresLocal, setTopGenresLocal] = useState({"short_term" : {}, "medium_term" : {}, "long_term" : {}})
+    const [topGenres, setTopGenres] = useState([])
+    const [topGenresTimeRange, setTopGenresTimeRange] = useState("short_term")
 
     const [cookies] = useCookies()
     const [tracks, setTracks] = useState({})
@@ -72,11 +77,33 @@ export default function Home() {
                     })
                 })
             }).then(artists => {
+                let tempGenres = topGenresLocal;
+                artists.map(artist => {
+                    return artist.genres.map(genre => {
+                        tempGenres[genre] = (tempGenres[genre]) ? tempGenres[genre] + 1 : 1
+                        return null
+                    })
+                })
+                setTopGenresLocal(tempGenres)
+
                 return artists.map(artist => {
                     let tempObj = {}
                     spotifyApi.getArtistTopTracks(artist.id, "US").then(data => {
-                        const tracks = {tracks: data.body.tracks}
-                        Object.assign(tempObj, artist, tracks)
+                        const tracks = data.body.tracks.map(track => {
+                            const largestAlbumImage = largestImgOf(track.album.images)
+                            return ({
+                                artist: track.artists[0].name,
+                                name: track.name,
+                                uri: track.uri,
+                                image: largestAlbumImage.url,
+                                popularity: track.popularity,
+                                duration: track.duration_ms,
+                                release: track.album.release_date,
+                                albumName: track.album.name,
+                                id: track.id,
+                            })
+                        })
+                        Object.assign(tempObj, artist, {topTracks: tracks})
                     }).catch(err => {
                         console.log(err)
                     })
@@ -86,7 +113,6 @@ export default function Home() {
                             const largestImg = largestImgOf(item.images)
                             if (!seen[item.name]) {
                                 seen[item.name] = 1
-
                                 return ({
                                     type: item.album_group,
                                     id: item.id,
@@ -97,7 +123,6 @@ export default function Home() {
                                     image: largestImg.url
                                 })
                             } else return {}
-
                         })
                         const releases = {
                             albums: discography.filter(item => {return (item.type === "album")}),
@@ -167,6 +192,9 @@ export default function Home() {
     useEffect(() => {
         setTopTracks(topSongsLocal[topSongsTimeRange])
     }, [topSongsLocal, topSongsTimeRange])
+    useEffect(() => {
+        setTopGenres(topGenresLocal[topGenresTimeRange])
+    }, [topGenresLocal, topGenresTimeRange])
 
     return (
         <div className="Home ">
@@ -187,6 +215,9 @@ export default function Home() {
                                                                               tracks={tracks}
                                                                               handleDisplay={handleTopArtistsDisplay}
                                                                               display={topArtistsDisplay}/>}/>
+                    <Route path={'/dashboard/top-genres'} element={<TopGenres genres={topGenres}
+                                                                              setTimeRange={setTopGenresTimeRange}
+                                                                              timeRange={topGenresTimeRange}/>}/>
                 </Routes>
             </main>
         </div>

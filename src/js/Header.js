@@ -10,6 +10,7 @@ export default function SiteHeader() {
     const homeRedirect = (cookies.accessToken) ? "/dashboard" : "/";
     const songRedirect = (cookies.accessToken) ? "/dashboard/top-songs" : "/";
     const artistRedirect = (cookies.accessToken) ? "/dashboard/top-artists" : "/";
+    const genreRedirect = (cookies.accessToken) ? "/dashboard/top-genres" : "/";
 
 
     function logout() {
@@ -31,6 +32,9 @@ export default function SiteHeader() {
                 </div>
                 <div className="nav-box d-flex-cc">
                     <Link to={artistRedirect}><h2 className="nav-link">Artists</h2></Link>
+                </div>
+                <div className="nav-box d-flex-cc">
+                    <Link to={genreRedirect}><h2 className="nav-link">Genres</h2></Link>
                 </div>
                 <div className="nav-box d-flex-cc" onClick={logout}>
                     <Link to={'/'}><h2 className="nav-link">Logout</h2></Link>

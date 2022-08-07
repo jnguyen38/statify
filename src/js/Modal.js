@@ -103,7 +103,7 @@ function ArtistModalInfo(props) {
     }, [pop, root.style])
 
     function numberWithCommas(num) {
-        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        return (typeof num === "string") ? num : num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
 
     function findLikedSongs() {
@@ -130,6 +130,18 @@ function ArtistModalInfo(props) {
 function ArtistDiscography(props) {
     return (
         <div className="modal-discography">
+            <div className="top-songs-disco list-view top-items-display">
+                <h3>Top Songs</h3>
+                {props.artist.topTracks.map((track, index) => (
+                    <Item item={track} index={index}
+                          right={null} left={null}
+                          showModal={null} close={null}
+                          show={false} itemType="Songs"
+                          tracks={props.tracks}
+                          key={track.id} display={true}/>
+                ))}
+                <div className="br"/>
+            </div>
             {!(props.artist.albums.length === 0) ? (
                 <div className="albums-disco list-view top-items-display">
                     <h3>Albums</h3>
@@ -170,6 +182,7 @@ export function ArtistModal(props) {
         else if (dir === "right")
             props.right()
     }
+
     return (
         <div id={props.artist.name} className="modal d-flex-cc" onClick={props.close}>
             <div className="modal-left d-flex-cc no-select" onClick={e => {e.stopPropagation(); handleNav("left");}}><img src={arrowLeft} alt=""/></div>
