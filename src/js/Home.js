@@ -5,7 +5,8 @@ import {useCookies} from "react-cookie";
 import Login from "./Login";
 import Dashboard from "./Dashboard";
 import SpotifyWebApi from "spotify-web-api-node";
-import TopItems, { TopGenres } from "./TopItems";
+import TopItems  from "./TopItems";
+import TopGenres from "./TopGenres";
 
 const redirect_uri = ['http://localhost:3000/dashboard'],
     client_id = ['5c42b63580e74a5d98548a11638db40f'],

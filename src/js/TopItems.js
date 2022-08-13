@@ -99,7 +99,7 @@ function TopItemsDisplay(props) {
     )
 }
 
-function TopItemsOptions(props) {
+export function TopItemsOptions(props) {
     function setTimeRange(term) {
         props.setTimeRange(term)
     }
@@ -128,16 +128,6 @@ function TopItemsOptions(props) {
                     <img src={listView} alt=""/>
                 </div>
             ) : null}
-        </section>
-    )
-}
-
-export function TopGenres(props) {
-    return (
-        <section className="top-items-container">
-            <h1>Your Top Genres from...</h1>
-            <TopItemsOptions setTimeRange={props.setTimeRange}
-                             timeRange={props.timeRange}/>
         </section>
     )
 }
