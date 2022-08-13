@@ -5,7 +5,7 @@ import {useCookies} from "react-cookie";
 import Login from "./Login";
 import Dashboard from "./Dashboard";
 import SpotifyWebApi from "spotify-web-api-node";
-import TopItems from "./TopItems";
+import TopItems  from "./TopItems";
 import TopGenres from "./TopGenres";
 
 const redirect_uri = ['http://localhost:3000/dashboard'],
@@ -29,7 +29,7 @@ export default function Home() {
     const [topArtistsTimeRange, setTopArtistsTimeRange] = useState("short_term")
     const [topArtistsDisplay, setTopArtistsDisplay] = useState(false)
 
-    const [topGenresLocal, setTopGenresLocal] = useState({"short_term" : {}, "medium_term" : {}, "long_term" : {}})
+    const [topGenresLocal, setTopGenresLocal] = useState({"short_term" : [], "medium_term" : [], "long_term" : []})
     const [topGenres, setTopGenres] = useState([])
     const [topGenresTimeRange, setTopGenresTimeRange] = useState("short_term")
 
@@ -77,14 +77,18 @@ export default function Home() {
                     })
                 })
             }).then(artists => {
-                let tempGenres = topGenresLocal;
+                let tempObj = {};
                 artists.map(artist => {
                     return artist.genres.map(genre => {
-                        tempGenres[genre] = (tempGenres[genre]) ? tempGenres[genre] + 1 : 1
+                        tempObj[genre] = (tempObj[genre]) ? tempObj[genre] + 1 : 1
                         return null
                     })
                 })
+                const tempSorted = Object.entries(tempObj).sort(([,a],[,b]) => b-a)
+                let tempGenres = topGenresLocal
+                tempGenres[range] = tempSorted
                 setTopGenresLocal(tempGenres)
+                if (range === "short_term") setTopGenres(tempSorted)
 
                 return artists.map(artist => {
                     let tempObj = {}
@@ -140,7 +144,7 @@ export default function Home() {
                 console.log(err)
             })
         }
-    }, [topArtistsLocal, cookies.accessToken])
+    }, [topArtistsLocal, cookies.accessToken, topGenresLocal])
     useEffect(() => {
         setTopArtists(topArtistsLocal[topArtistsTimeRange])
     }, [topArtistsLocal, topArtistsTimeRange])

@@ -32,7 +32,9 @@ export default function Dashboard() {
                 <Link to={'./top-artists'}>
                     <div className="dashboard-banner d-flex-cc"><h2>Top Artists</h2></div>
                 </Link>
-                <div className="dashboard-banner d-flex-cc"><h2>Top Genres</h2></div>
+                <Link to={'./top-genres'}>
+                    <div className="dashboard-banner d-flex-cc"><h2>Top Genres</h2></div>
+                </Link>
                 <div className="dashboard-banner d-flex-cc"><h2>Playlist Creator</h2></div>
             </div>
         </section>

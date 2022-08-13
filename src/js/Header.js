@@ -19,7 +19,7 @@ export default function SiteHeader() {
 
     return (
         <section className="header">
-            <Link to={'/'} id="logo-link" className="d-flex-cc">
+            <Link to={homeRedirect} id="logo-link" className="d-flex-cc">
                 <img id="logo" src={logo} alt="logo"/>
                 <h1>Statify</h1>
             </Link>

@@ -99,7 +99,7 @@ function TopItemsDisplay(props) {
     )
 }
 
-function TopItemsOptions(props) {
+export function TopItemsOptions(props) {
     function setTimeRange(term) {
         props.setTimeRange(term)
     }
@@ -121,11 +121,13 @@ function TopItemsOptions(props) {
                  onClick={() => {setTimeRange("long_term")}}>
                 <h2> All Time </h2>
             </div>
-            <div className="top-items-display-toggle d-flex-cc" >
-                <img src={gridView} alt=""/>
-                <ToggleSwitch setDisplay={props.setDisplay} display={props.display}/>
-                <img src={listView} alt=""/>
-            </div>
+            {(props.setDisplay) ? (
+                <div className="top-items-display-toggle d-flex-cc" >
+                    <img src={gridView} alt=""/>
+                    <ToggleSwitch setDisplay={props.setDisplay} display={props.display}/>
+                    <img src={listView} alt=""/>
+                </div>
+            ) : null}
         </section>
     )
 }
